@@ -11,6 +11,13 @@ const CONFIG_QUERY_OBJ = `{
     logo ${IMAGE}
   },
   footer,
+  homeFeaturedProducts ${
+    ...,
+    items[] {
+      ...,
+      image ${IMAGE}
+    }
+  },
   titleSuffix
 }`;
 

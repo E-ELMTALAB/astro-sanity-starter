@@ -2,15 +2,21 @@
 import Layout from '@layouts/Layout.astro';
 import TelegramShopHome from '@components/TelegramShopHome.tsx';
 import FeaturedProducts from '@components/FeaturedProducts.astro';
+import { fetchData as fetchConfig } from '@data/siteConfig';
 
 const title = 'TeleShop';
 const description = 'Modern Telegram Shop Homepage';
 ---
 
+const config = await fetchConfig();
+const featured = config?.homeFeaturedProducts;
+---
+
 <Layout title={title} description={description} addTitleSuffix={false}>
     <TelegramShopHome client:load>
-        <!-- Insert CMS-driven Featured Products section here for Visual Editing -->
-        <FeaturedProducts _type="featuredProductsSection" theme="light" width="full" data-sb-field-path="home:featuredProductsSection" />
+        {featured && (
+            <FeaturedProducts {...featured} data-sb-field-path={`${config._id}:homeFeaturedProducts`} />
+        )}
     </TelegramShopHome>
 </Layout>
 

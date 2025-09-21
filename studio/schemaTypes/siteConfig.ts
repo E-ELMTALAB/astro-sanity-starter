@@ -38,6 +38,13 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      name: 'homeFeaturedProducts',
+      title: 'Homepage Featured Products',
+      description: 'Featured Products section shown on the homepage',
+      type: 'featuredProductsSection',
+      group: 'content',
+    }),
+    defineField({
       name: 'titleSuffix',
       title: 'Suffix for page titles',
       description:
