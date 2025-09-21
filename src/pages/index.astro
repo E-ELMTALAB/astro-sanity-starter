@@ -1,0 +1,13 @@
+---
+import Layout from '@layouts/Layout.astro';
+import TelegramShopHome from '@components/TelegramShopHome.tsx';
+
+const title = 'TeleShop';
+const description = 'Modern Telegram Shop Homepage';
+---
+
+<Layout title={title} description={description} addTitleSuffix={false}>
+    <TelegramShopHome client:load />
+</Layout>
+
+

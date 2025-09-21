@@ -12,6 +12,7 @@
         "export": "node ./sanity-export/export.js"
     },
     "dependencies": {
+        "@astrojs/react": "^4.0.7",
         "@sanity/astro": "^3.1.6",
         "@sanity/client": "^6.22.0",
         "@sanity/validation": "^3.14.4",
@@ -20,7 +21,10 @@
         "astro-icon": "^1.1.0",
         "dotenv": "^16.4.7",
         "fs-extra": "^11.2.0",
+        "lucide-react": "^0.471.0",
         "marked": "^15.0.4",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "tailwindcss": "^4.0.9"
     },
     "devDependencies": {
