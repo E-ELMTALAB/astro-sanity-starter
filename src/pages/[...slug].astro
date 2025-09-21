@@ -1,6 +1,12 @@
 ---
 import type { Page } from 'types';
 import Layout from '@layouts/Layout.astro';
+import Cards from '@components/Cards.astro';
+import Cta from '@components/Cta.astro';
+import Hero from '@components/Hero.astro';
+import Logos from '@components/Logos.astro';
+import FeaturedProducts from '@components/FeaturedProducts.astro';
+import Testimonials from '@components/Testimonials.astro';
 import TelegramShopHome from '@components/TelegramShopHome.tsx';
 import { fetchData, getPageById } from '@data/page';
 
@@ -19,16 +25,32 @@ const { id } = Astro.props;
 const pages = await getPageById(id);
 const page: Page = pages.length ? pages[0] : null;
 
-const { _id, title, metaTitle, metaDescription, socialImage } = page || {};
----
+const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
+
+const componentMap = {
+    cardsSection: Cards,
+    ctaSection: Cta,
+    heroSection: Hero,
+    logosSection: Logos,
+    featuredProductsSection: FeaturedProducts,
+    testimonialsSection: Testimonials
+};
 ---
 
 {
     page && (
         <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
-            <div data-sb-object-id={_id}>
+            {page?.slug?.current === '/' ? (
                 <TelegramShopHome client:load />
-            </div>
+            ) : (
+                <div data-sb-object-id={_id}>
+                    {sections?.length &&
+                        sections.map((section, idx) => {
+                            const Component = componentMap[section._type];
+                            return <Component {...section} data-sb-field-path={`sections.${idx}`} />;
+                        })}
+                </div>
+            )}
         </Layout>
     )
 }

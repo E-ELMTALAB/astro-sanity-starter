@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Facebook, Instagram, Mail, Phone, Star, Twitter, X, Youtube, Zap } from 'lucide-react';
 
 interface Product {
@@ -132,7 +132,7 @@ const banners = [
     { id: 4, title: 'Electronics Mega Sale', subtitle: 'Latest tech at unbeatable prices', buttonText: 'Shop Electronics', buttonLink: '/products?category=Electronics', badge: 'Tech Deals', gradient: 'from-blue-500 to-cyan-500' }
 ];
 
-export default function TelegramShopHome({ children }: { children?: ReactNode }) {
+export default function TelegramShopHome() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -500,7 +500,40 @@ export default function TelegramShopHome({ children }: { children?: ReactNode })
                     </div>
                 </section>
 
-                {children}
+                <section className="space-y-6">
+                    <div className="text-center space-y-2">
+                        <h2 className="text-3xl font-bold">Featured Products</h2>
+                        <p className="opacity-70">Hand-picked favorites just for you</p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {featuredProducts.map((product) => (
+                            <div key={product.id} className="bg-base-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                                <div className="aspect-square bg-base-200 relative overflow-hidden">
+                                    <img src={product.image || '/placeholder.svg'} onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt={product.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                                </div>
+                                <div className="p-4 space-y-3">
+                                    <div className="space-y-1">
+                                        <h3 className="font-semibold text-lg">{product.name}</h3>
+                                        <p className="text-sm opacity-70 line-clamp-2">{product.description}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-1">
+                                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                            <span className="text-sm font-medium">{product.rating}</span>
+                                        </div>
+                                        <span className="text-xs opacity-70">{product.category}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-2xl font-bold text-primary">${product.price}</span>
+                                        <button onClick={() => addToCart(product)} className="px-3 py-2 rounded-md bg-primary text-primary-content text-sm font-semibold">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
 
                 {/* Social links */}
                 <section className="space-y-6">
