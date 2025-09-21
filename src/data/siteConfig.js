@@ -11,14 +11,21 @@ const CONFIG_QUERY_OBJ = `{
     logo ${IMAGE}
   },
   footer,
+  titleSuffix,
   homeFeaturedProducts {
     ...,
+    backgroundImage {
+      ...,
+      "image": {
+        "_id": image.asset->_id,
+        "src": image.asset->url
+      }
+    },
     items[] {
       ...,
       image ${IMAGE}
     }
-  },
-  titleSuffix
+  }
 }`;
 
 export async function fetchData() {
