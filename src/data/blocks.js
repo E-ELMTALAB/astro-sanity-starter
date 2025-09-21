@@ -22,6 +22,12 @@ export const SECTIONS = `{
       image ${IMAGE}
     }
   },
+  _type == "featuredProductsSection" => {
+    items[] {
+      ...,
+      image ${IMAGE}
+    }
+  },
   _type == "logosSection" => {
     items[] ${IMAGE}
   },

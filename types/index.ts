@@ -39,6 +39,12 @@ export interface CardsSection extends Section {
     columns?: 'one' | 'two' | 'three';
 }
 
+export interface FeaturedProductsSection extends Section {
+    heading?: string;
+    body?: string;
+    items?: Array<Card>;
+}
+
 export interface Company {
     _id: string;
     name: string;
@@ -85,7 +91,7 @@ export interface Page {
     _id: string;
     slug: Slug;
     title: string;
-    sections: Array<CardsSection | CtaSection | HeroSection | LogosSection | TestimonialsSection>;
+    sections: Array<CardsSection | CtaSection | HeroSection | LogosSection | TestimonialsSection | FeaturedProductsSection>;
     metaTitle?: string;
     addTitleSuffix?: boolean;
     metaDescription?: string;

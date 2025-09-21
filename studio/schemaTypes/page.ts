@@ -48,6 +48,7 @@ export default defineType({
         {type: 'ctaSection'},
         {type: 'heroSection'},
         {type: 'logosSection'},
+        {type: 'featuredProductsSection'},
         {type: 'testimonialsSection'},
       ],
       group: 'content',

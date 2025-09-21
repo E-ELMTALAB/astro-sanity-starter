@@ -7,6 +7,7 @@ import { cardsSection } from './cardsSection';
 import { ctaSection } from './ctaSection';
 import { heroSection } from './heroSection';
 import { logosSection } from './logosSection';
+import { featuredProductsSection } from './featuredProductsSection';
 import { page } from './page';
 import { person } from './person';
 import { siteConfig } from './siteConfig';
@@ -22,6 +23,7 @@ export const allModelExtensions: ModelExtension[] = [
     ctaSection,
     heroSection,
     logosSection,
+    featuredProductsSection,
     page,
     person,
     siteConfig,
