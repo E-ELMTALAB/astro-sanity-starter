@@ -263,6 +263,243 @@ export default function TelegramShopHome() {
                     </div>
                 </section>
 
+                {/* Must-Have Products - dual banners */}
+                <section className="space-y-6">
+                    <div className="text-center space-y-2">
+                        <h2 className="text-3xl font-bold">Must-Have Products</h2>
+                        <p className="opacity-70">Our top picks that everyone's talking about</p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div className="relative h-64 rounded-2xl overflow-hidden group cursor-pointer">
+                            <img src="/modern-wireless-headphones.jpg" onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt="Premium Wireless Headphones" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+                            <div className="absolute inset-0 p-6 flex flex-col justify-between">
+                                <div className="flex justify-between items-start">
+                                    <span className="inline-block rounded-md px-2 py-1 text-xs bg-primary text-primary-content">🎧 Best Seller</span>
+                                    <div className="text-right">
+                                        <div className="text-white text-2xl font-bold">$99.99</div>
+                                        <div className="text-white/80 text-sm line-through">$149.99</div>
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <div>
+                                        <h3 className="text-white text-xl font-bold">Premium Wireless Headphones</h3>
+                                        <p className="text-white/90 text-sm">Crystal clear sound with active noise cancellation</p>
+                                    </div>
+                                    <a href="/product/1" className="inline-flex items-center bg-white text-black hover:bg-white/90 rounded-md px-4 py-2 font-medium">
+                                        Shop Now
+                                        <ArrowRight className="w-4 h-4 ml-2" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="relative h-64 rounded-2xl overflow-hidden group cursor-pointer">
+                            <img src="/sleek-smartwatch.jpg" onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt="Smart Watch" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-black/40 to-transparent" />
+                            <div className="absolute inset-0 p-6 flex flex-col justify-between">
+                                <div className="flex justify-between items-start">
+                                    <span className="inline-block rounded-md px-2 py-1 text-xs bg-green-500 text-white">⌚ New Arrival</span>
+                                    <div className="text-right">
+                                        <div className="text-white text-2xl font-bold">$249.99</div>
+                                        <div className="text-white/80 text-sm">Free Shipping</div>
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <div>
+                                        <h3 className="text-white text-xl font-bold">Advanced Smart Watch</h3>
+                                        <p className="text-white/90 text-sm">Track your fitness and stay connected</p>
+                                    </div>
+                                    <a href="/product/2" className="inline-flex items-center bg-white text-black hover:bg-white/90 rounded-md px-4 py-2 font-medium">
+                                        Discover More
+                                        <ArrowRight className="w-4 h-4 ml-2" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Trending Now - gradient info cards */}
+                <section className="space-y-6">
+                    <div className="bg-gradient-to-br from-primary/5 via-blue-50/50 to-purple-50/30 dark:from-primary/10 dark:via-blue-950/20 dark:to-purple-950/10 rounded-2xl p-8 border border-primary/20">
+                        <div className="text-center space-y-4 mb-8">
+                            <span className="inline-block rounded-md px-2 py-1 text-xs bg-primary/10 text-primary border border-primary/20">🔥 Trending Now</span>
+                            <h3 className="text-2xl md:text-3xl font-bold">What's Popular Today</h3>
+                            <p className="opacity-70 max-w-2xl mx-auto">Discover the products everyone's talking about - handpicked based on customer favorites and trending searches</p>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            <div className="bg-base-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-lg">#1</div>
+                                    <div>
+                                        <h4 className="font-semibold">Most Loved</h4>
+                                        <p className="text-sm opacity-70">Highest rated this week</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <img src="/modern-wireless-headphones.jpg" onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt="Trending Product" className="w-16 h-16 rounded-lg object-cover" />
+                                    <div className="flex-1">
+                                        <p className="font-medium">Wireless Headphones</p>
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-1">
+                                                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                                <span className="text-sm font-medium">4.9</span>
+                                            </div>
+                                            <span className="text-sm opacity-70">2.1k reviews</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-base-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-lg">#2</div>
+                                    <div>
+                                        <h4 className="font-semibold">Best Seller</h4>
+                                        <p className="text-sm opacity-70">Flying off the shelves</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <img src="/sleek-smartwatch.jpg" onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt="Best Seller" className="w-16 h-16 rounded-lg object-cover" />
+                                    <div className="flex-1">
+                                        <p className="font-medium">Smart Watch</p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs rounded-md px-2 py-0.5 bg-base-200">1.2k sold</span>
+                                            <span className="text-sm opacity-70">this month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-base-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-lg">#3</div>
+                                    <div>
+                                        <h4 className="font-semibold">Rising Star</h4>
+                                        <p className="text-sm opacity-70">Gaining popularity fast</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <img src="/portable-bluetooth-speaker.jpg" onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt="Rising Star" className="w-16 h-16 rounded-lg object-cover" />
+                                    <div className="flex-1">
+                                        <p className="font-medium">Bluetooth Speaker</p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs rounded-md px-2 py-0.5 bg-base-200">+150%</span>
+                                            <span className="text-sm opacity-70">growth</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="text-center mt-8">
+                            <a href="/trending" className="inline-flex items-center gap-2 rounded-md px-6 py-3 bg-primary text-primary-content font-semibold">
+                                View All Trending Products
+                                <ArrowRight className="w-4 h-4" />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Shop by Category */}
+                <section className="space-y-6">
+                    <div className="flex items-center justify-between">
+                        <div className="space-y-2">
+                            <h2 className="text-3xl font-bold">Shop by Category</h2>
+                            <p className="opacity-70">Find exactly what you're looking for</p>
+                        </div>
+                        <a href="/products" className="inline-flex items-center gap-2 rounded-md border px-3 py-2">
+                            View All
+                            <ArrowRight className="w-4 h-4" />
+                        </a>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {categories.map((category) => (
+                            <a key={category.name} href={`/products?category=${category.name}`} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-base-100 to-base-200 border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                                <div className="relative p-6 h-32 flex flex-col justify-between">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-1">
+                                            <h3 className="text-lg font-bold group-hover:text-primary transition-colors duration-300">{category.name}</h3>
+                                            <p className="text-sm opacity-70 font-medium">{category.count}</p>
+                                        </div>
+                                        <div className="text-2xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">{category.icon}</div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-xs opacity-60 group-hover:text-primary transition-colors duration-300">Explore collection</div>
+                                        <ArrowRight className="w-4 h-4 opacity-60 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
+                                    </div>
+                                </div>
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-xl" />
+                            </a>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Flash Sale */}
+                <section className="space-y-6">
+                    <div className="relative rounded-2xl p-6 border" style={{ background: 'linear-gradient(90deg, rgba(255,0,0,0.04), rgba(255,165,0,0.04))' }}>
+                        <div className="absolute top-4 right-4 z-20">
+                            <span className="inline-block rounded-md px-2 py-1 text-xs bg-red-500 text-white animate-pulse">🔥 Hot Deals</span>
+                        </div>
+                        <div className="space-y-2 mb-6">
+                            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">Flash Sale</h2>
+                            <p className="opacity-70">Limited time offers - grab them before they're gone!</p>
+                            <div className="flex items-center gap-2 text-sm text-red-600">
+                                <Zap className="w-4 h-4" />
+                                <span className="font-medium">Ends in 23:59:45</span>
+                            </div>
+                        </div>
+                        <div className="md:overflow-x-auto md:pb-4">
+                            <div className="grid grid-cols-1 gap-4 md:flex md:gap-4 md:min-w-max">
+                                {discountedProducts.map((product) => (
+                                    <a key={product.id} href={`/product/${product.id}`} className="block">
+                                        <div className="bg-base-100 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full md:w-72 md:flex-shrink-0 border cursor-pointer">
+                                            <div className="relative">
+                                                <span className="absolute top-3 left-3 z-10 rounded-md px-3 py-1 text-xs bg-red-500 text-white">-{product.discount}% OFF</span>
+                                                <div className="absolute top-3 right-3 z-10">
+                                                    <div className="bg-base-100/90 rounded-full px-2 py-1 text-xs font-medium">Save ${(product.originalPrice - product.price).toFixed(2)}</div>
+                                                </div>
+                                                <div className="aspect-square bg-base-200 relative overflow-hidden">
+                                                    <img src={product.image || '/placeholder.svg'} onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt={product.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                                                </div>
+                                            </div>
+                                            <div className="p-5 space-y-4">
+                                                <div className="space-y-2">
+                                                    <h3 className="font-bold text-lg leading-tight">{product.name}</h3>
+                                                    <p className="text-sm opacity-70 line-clamp-2">{product.description}</p>
+                                                </div>
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="flex items-center gap-1">
+                                                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                                            <span className="text-sm font-medium">{product.rating}</span>
+                                                        </div>
+                                                        <span className="text-xs rounded-md px-2 py-0.5 bg-base-200">{product.category}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="space-y-3">
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-2xl font-bold text-red-600">${product.price}</span>
+                                                        <span className="text-lg opacity-70 line-through">${product.originalPrice}</span>
+                                                    </div>
+                                                    <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(product); }} className="w-full rounded-md px-4 py-2 bg-red-500 text-white font-medium">
+                                                        Add to Cart - Save ${(product.originalPrice - product.price).toFixed(2)}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex justify-center mt-6">
+                            <a href="/products?filter=deals" className="inline-flex items-center gap-2 rounded-md border px-4 py-3">
+                                View All Flash Deals
+                                <ArrowRight className="w-4 h-4" />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
                 <section className="space-y-6">
                     <div className="text-center space-y-2">
                         <h2 className="text-3xl font-bold">Featured Products</h2>
@@ -318,7 +555,93 @@ export default function TelegramShopHome() {
                         ))}
                     </div>
                 </section>
+
+                {/* Need Help */}
+                <section className="space-y-6">
+                    <div className="text-center space-y-2">
+                        <h2 className="text-3xl font-bold">Need Help?</h2>
+                        <p className="opacity-70">Our support team is here to assist you 24/7</p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div className="bg-base-100 rounded-2xl p-6 border space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                    <Phone className="w-4 h-4 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold">Phone Support</h3>
+                                    <p className="text-sm opacity-70">Get help over the phone</p>
+                                </div>
+                            </div>
+                            <div className="space-y-3">
+                                <p className="text-sm">Have a question about your order, product, or need assistance? Call our support team at +1 (555) 123-4567.</p>
+                                <a href="tel:+15551234567" className="w-full inline-flex justify-center items-center gap-2 rounded-md px-4 py-3 bg-primary text-primary-content">
+                                    <Phone className="w-4 h-4" />
+                                    Call Support
+                                </a>
+                            </div>
+                        </div>
+                        <div className="bg-base-100 rounded-2xl p-6 border space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                    <Mail className="w-4 h-4 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold">Email Support</h3>
+                                    <p className="text-sm opacity-70">Send us an email</p>
+                                </div>
+                            </div>
+                            <div className="space-y-3">
+                                <p className="text-sm">Have a question about your order, product, or need assistance? Email us at support@teleshop.com.</p>
+                                <a href="mailto:support@teleshop.com" className="w-full inline-flex justify-center items-center gap-2 rounded-md px-4 py-3 bg-primary text-primary-content">
+                                    <Mail className="w-4 h-4" />
+                                    Email Support
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
+
+            {/* Simple Cart Overlay */}
+            {isCartOpen && (
+                <div className="fixed inset-0 z-50">
+                    <div className="absolute inset-0 bg-black/50" onClick={() => setIsCartOpen(false)} />
+                    <div className="absolute right-0 top-0 h-full w-full max-w-md bg-base-100 shadow-2xl p-6 overflow-y-auto">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-bold">Your Cart</h3>
+                            <button className="rounded-md px-3 py-1 border" onClick={() => setIsCartOpen(false)}>
+                                Close
+                            </button>
+                        </div>
+                        {cartItems.length === 0 ? (
+                            <p className="opacity-70">Your cart is empty.</p>
+                        ) : (
+                            <div className="space-y-4">
+                                {cartItems.map((item) => (
+                                    <div key={item.id} className="flex items-center gap-3 border rounded-lg p-3">
+                                        <img src={item.image || '/placeholder.svg'} onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt={item.name} className="w-16 h-16 rounded object-cover" />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-semibold truncate">{item.name}</div>
+                                            <div className="text-sm opacity-70">${item.price.toFixed(2)}</div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button className="rounded-md px-2 py-1 border" onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}>-</button>
+                                            <span className="w-6 text-center">{item.quantity}</span>
+                                            <button className="rounded-md px-2 py-1 border" onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="flex items-center justify-between pt-2 border-t mt-2">
+                                    <div className="font-semibold">Total</div>
+                                    <div className="text-lg font-bold">${cartTotal.toFixed(2)}</div>
+                                </div>
+                                <button className="w-full rounded-md px-4 py-3 bg-primary text-primary-content font-semibold">Checkout</button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {activeStory && (
                 <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
