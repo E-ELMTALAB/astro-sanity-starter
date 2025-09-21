@@ -133,7 +133,7 @@ const banners = [
     { id: 4, title: 'Electronics Mega Sale', subtitle: 'Latest tech at unbeatable prices', buttonText: 'Shop Electronics', buttonLink: '/products?category=Electronics', badge: 'Tech Deals', gradient: 'from-blue-500 to-cyan-500' }
 ];
 
-type FeaturedInput = { _id?: string; items?: ProductCardItem[] };
+type FeaturedInput = { _id?: string; heading?: string; body?: string; items?: ProductCardItem[] };
 
 export default function TelegramShopHome({ featured, pageId, featuredFieldPath }: { featured?: FeaturedInput; pageId?: string; featuredFieldPath?: string }) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -505,10 +505,18 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
 
                 <section className="space-y-6" {...(pageId && featuredFieldPath ? ({ 'data-sb-object-id': pageId, 'data-sb-field-path': featuredFieldPath } as any) : {})}>
                     <div className="text-center space-y-2">
-                        <h2 className="text-3xl font-bold">Featured Products</h2>
-                        <p className="opacity-70">Hand-picked favorites just for you</p>
+                        {featured?.heading ? (
+                            <h2 className="text-3xl font-bold" data-sb-field-path={'.heading'}>{featured.heading}</h2>
+                        ) : (
+                            <h2 className="text-3xl font-bold">Featured Products</h2>
+                        )}
+                        {featured?.body ? (
+                            <p className="opacity-70" data-sb-field-path={'.body'}>{featured.body}</p>
+                        ) : (
+                            <p className="opacity-70">Hand-picked favorites just for you</p>
+                        )}
                     </div>
-                    <div className="grid md:grid-cols-3 gap-6" {...(featuredFieldPath ? ({ 'data-sb-field-path': `${featuredFieldPath}.items` } as any) : {})}>
+                    <div className="grid md:grid-cols-3 gap-6" {...(featuredFieldPath ? ({ 'data-sb-field-path': '.items' } as any) : {})}>
                         {(featured?.items || []).map((product, idx) => (
                             <div key={(product.name || '') + idx} className="bg-base-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-sb-field-path={`.${idx}`}>
                                 <a href={product.url || undefined} className="block">
