@@ -14,18 +14,34 @@ const { badge, heading, body, cta, image, theme, textAlign, hasBorder, class: cl
 ---
 
 <div
-    class:list={['card', hasBorder !== false && 'card-border', 'w-full max-w-2xl', className]}
+    class:list={[
+        'card',
+        hasBorder !== false && 'card-border',
+        'w-full max-w-2xl',
+        'rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-200',
+        className
+    ]}
     {...theme && theme !== 'transparent' && { 'data-theme': theme }}
     data-sb-field-path={fieldPath}
 >
     {
         image && image.src && (
-            <figure>
-                <ResponsiveImage _id={image._id} src={image.src} width={image.dimensions?.width} height={image.dimensions?.height} alt={image.alt} />
+            <figure data-sb-field-path=".image" class="overflow-hidden rounded-t-2xl">
+                <ResponsiveImage
+                    _id={image._id}
+                    src={image.src}
+                    width={image.dimensions?.width}
+                    height={image.dimensions?.height}
+                    alt={image.alt}
+                    class="w-full h-auto object-cover"
+                />
             </figure>
         )
     }
-    <div class:list={['card-body gap-4', textAlign === 'center' ? 'items-center text-center' : 'text-left']}>
+    <div class:list={[
+        'card-body gap-5',
+        textAlign === 'center' ? 'items-center text-center' : 'text-left'
+    ]}>
         {badge && badge.label && <Badge {...badge} data-sb-field-path=".badge" />}
         {
             heading && (
@@ -37,7 +53,7 @@ const { badge, heading, body, cta, image, theme, textAlign, hasBorder, class: cl
         {body && <div class="markdown" set:html={marked.parse(body)} data-sb-field-path=".body" />}
         {
             cta && cta.length > 0 && (
-                <div class="card-actions items-center" data-sb-field-path=".cta">
+                <div class="card-actions items-center gap-3" data-sb-field-path=".cta">
                     {cta.map((item, index) => (
                         <Action
                             action={item}
