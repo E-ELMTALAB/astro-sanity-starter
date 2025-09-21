@@ -31,6 +31,28 @@ export const SECTIONS = `{
   _type == "logosSection" => {
     items[] ${IMAGE}
   },
+  _type == "heroCarouselSection" => {
+    banners[] { ... }
+  },
+  _type == "categoriesSection" => {
+    items[] { ... }
+  },
+  _type == "flashSaleSection" => {
+    items[] {
+      ...,
+      image ${IMAGE}
+    }
+  },
+  _type == "storiesSection" => {
+    items[] {
+      ...,
+      cover ${IMAGE},
+      slides[] {
+        ...,
+        image ${IMAGE}
+      }
+    }
+  },
   _type == "testimonialsSection" => {
     items[] {
         ...,
