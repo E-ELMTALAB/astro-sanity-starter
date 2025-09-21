@@ -26,6 +26,10 @@ const pages = await getPageById(id);
 const page: Page = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
+const featuredSectionIndex = Array.isArray(sections)
+    ? sections.findIndex((section: any) => section?._type === 'featuredProductsSection')
+    : -1;
+const featuredSection = featuredSectionIndex >= 0 ? sections[featuredSectionIndex] : null;
 
 const componentMap = {
     cardsSection: Cards,
@@ -41,7 +45,7 @@ const componentMap = {
     page && (
         <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
             {page?.slug?.current === '/' ? (
-                <TelegramShopHome client:load />
+                <TelegramShopHome client:load featured={featuredSection} pageId={_id} featuredFieldPath={featuredSectionIndex >= 0 ? `sections.${featuredSectionIndex}` : undefined} />
             ) : (
                 <div data-sb-object-id={_id}>
                     {sections?.length &&
