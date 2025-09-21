@@ -42,7 +42,7 @@ export interface CardsSection extends Section {
 export interface FeaturedProductsSection extends Section {
     heading?: string;
     body?: string;
-    items?: Array<Card>;
+    items?: Array<ProductCardItem>;
 }
 
 export interface Company {
@@ -56,6 +56,16 @@ export interface CustomImage {
     src: string;
     alt?: string;
     dimensions?: { height: number; width: number };
+}
+
+export interface ProductCardItem {
+    image?: CustomImage;
+    name: string;
+    description?: string;
+    rating?: number;
+    category?: string;
+    price?: number;
+    url?: string;
 }
 
 export interface CtaSection extends Section {

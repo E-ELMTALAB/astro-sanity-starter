@@ -24,9 +24,9 @@ export default defineType({
     defineField({
       name: 'items',
       title: 'Items',
-      description: 'Cards to display as featured products',
+      description: 'Products to display as featured cards',
       type: 'array',
-      of: [{type: 'card'}],
+      of: [{type: 'productCard'}],
       group: 'content',
     }),
     ...SECTION_BASE_FIELDS,

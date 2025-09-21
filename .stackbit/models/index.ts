@@ -12,6 +12,7 @@ import { page } from './page';
 import { person } from './person';
 import { siteConfig } from './siteConfig';
 import { testimonial } from './testimonial';
+import { productCard } from './productCard';
 import { testimonialsSection } from './testimonialsSection';
 
 export const allModelExtensions: ModelExtension[] = [
@@ -28,5 +29,6 @@ export const allModelExtensions: ModelExtension[] = [
     person,
     siteConfig,
     testimonial,
+    productCard,
     testimonialsSection
 ];

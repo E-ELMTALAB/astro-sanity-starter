@@ -12,6 +12,7 @@ import header from './header'
 import heroSection from './heroSection'
 import logosSection from './logosSection'
 import featuredProductsSection from './featuredProductsSection'
+import productCard from './productCard'
 import page from './page'
 import person from './person'
 import siteConfig from './siteConfig'
@@ -33,6 +34,7 @@ export const schemaTypes = [
   heroSection,
   logosSection,
   featuredProductsSection,
+  productCard,
   page,
   person,
   siteConfig,
