@@ -503,7 +503,7 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
                     </div>
                 </section>
 
-                <section className="space-y-6" {...(pageId && featuredFieldPath ? ({ 'data-sb-object-id': pageId, 'data-sb-field-path': featuredFieldPath } as any) : {})}>
+                <section className="space-y-6" {...(featuredFieldPath ? ({ 'data-sb-field-path': featuredFieldPath } as any) : {})}>
                     <div className="text-center space-y-2">
                         {featured?.heading ? (
                             <h2 className="text-3xl font-bold" data-sb-field-path={'.heading'}>{featured.heading}</h2>

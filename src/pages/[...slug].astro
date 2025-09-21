@@ -45,7 +45,9 @@ const componentMap = {
     page && (
         <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
             {page?.slug?.current === '/' ? (
-                <TelegramShopHome client:load featured={featuredSection} pageId={_id} featuredFieldPath={featuredSectionIndex >= 0 ? `sections.${featuredSectionIndex}` : undefined} />
+                <div data-sb-object-id={_id}>
+                    <TelegramShopHome client:load featured={featuredSection} featuredFieldPath={featuredSectionIndex >= 0 ? `sections.${featuredSectionIndex}` : undefined} />
+                </div>
             ) : (
                 <div data-sb-object-id={_id}>
                     {sections?.length &&
