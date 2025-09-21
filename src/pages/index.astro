@@ -1,0 +1,17 @@
+---
+import Layout from '@layouts/Layout.astro';
+import TelegramShopHome from '@components/TelegramShopHome.tsx';
+import FeaturedProducts from '@components/FeaturedProducts.astro';
+
+const title = 'TeleShop';
+const description = 'Modern Telegram Shop Homepage';
+---
+
+<Layout title={title} description={description} addTitleSuffix={false}>
+    <TelegramShopHome client:load>
+        <!-- Insert CMS-driven Featured Products section here for Visual Editing -->
+        <FeaturedProducts _type="featuredProductsSection" theme="light" width="full" data-sb-field-path="home:featuredProductsSection" />
+    </TelegramShopHome>
+</Layout>
+
+
