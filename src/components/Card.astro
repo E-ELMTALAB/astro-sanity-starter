@@ -13,56 +13,79 @@ interface Props extends Card {
 const { badge, heading, body, cta, image, theme, textAlign, hasBorder, class: className, 'data-sb-field-path': fieldPath } = Astro.props;
 ---
 
-<div
-    class:list={[
-        'card',
-        hasBorder !== false && 'card-border',
-        'w-full max-w-2xl',
-        'rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-200',
-        className
-    ]}
-    {...theme && theme !== 'transparent' && { 'data-theme': theme }}
-    data-sb-field-path={fieldPath}
->
-    {
-        image && image.src && (
-            <figure data-sb-field-path=".image" class="overflow-hidden rounded-t-2xl">
-                <ResponsiveImage
-                    _id={image._id}
-                    src={image.src}
-                    width={image.dimensions?.width}
-                    height={image.dimensions?.height}
-                    alt={image.alt}
-                    class="w-full h-auto object-cover"
-                />
-            </figure>
-        )
-    }
-    <div class:list={[
-        'card-body gap-5',
-        textAlign === 'center' ? 'items-center text-center' : 'text-left'
-    ]}>
-        {badge && badge.label && <Badge {...badge} data-sb-field-path=".badge" />}
-        {
-            heading && (
-                <h3 class="font-black card-title sm:text-2xl" data-sb-field-path=".heading">
-                    {heading}
-                </h3>
-            )
-        }
-        {body && <div class="markdown" set:html={marked.parse(body)} data-sb-field-path=".body" />}
-        {
-            cta && cta.length > 0 && (
-                <div class="card-actions items-center gap-3" data-sb-field-path=".cta">
-                    {cta.map((item, index) => (
-                        <Action
-                            action={item}
-                            class:list={[item._type === 'actionLink' ? 'font-bold underline hover:no-underline' : 'px-4 py-2.5 h-auto min-h-0']}
-                            data-sb-field-path={`.${index}`}
+<div class="f-card-wrapper group relative" data-sb-field-path={fieldPath}>
+    <div class="f-card-border p-[1px] rounded-2xl bg-gradient-to-br from-cyan-500/40 via-fuchsia-500/40 to-amber-400/40">
+        <div
+            class:list={[
+                'card',
+                hasBorder !== false && 'card-border',
+                'w-full max-w-2xl',
+                'rounded-[1rem] bg-base-100/80 backdrop-blur-xl',
+                'shadow-lg shadow-primary/10 group-hover:shadow-primary/30 transition-all duration-300',
+                'translate-y-0 group-hover:-translate-y-0.5',
+                className
+            ]}
+            {...theme && theme !== 'transparent' && { 'data-theme': theme }}
+        >
+            {
+                image && image.src && (
+                    <figure data-sb-field-path=".image" class="overflow-hidden rounded-t-[1rem]">
+                        <ResponsiveImage
+                            _id={image._id}
+                            src={image.src}
+                            width={image.dimensions?.width}
+                            height={image.dimensions?.height}
+                            alt={image.alt}
+                            class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
-                    ))}
-                </div>
-            )
-        }
+                    </figure>
+                )
+            }
+            <div class:list={[
+                'card-body gap-5',
+                'relative',
+                textAlign === 'center' ? 'items-center text-center' : 'text-left'
+            ]}>
+                {badge && badge.label && <Badge {...badge} data-sb-field-path=".badge" />}
+                {
+                    heading && (
+                        <h3 class="font-black card-title sm:text-2xl bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,174,156,0.25)]" data-sb-field-path=".heading">
+                            {heading}
+                        </h3>
+                    )
+                }
+                {body && <div class="markdown" set:html={marked.parse(body)} data-sb-field-path=".body" />}
+                {
+                    cta && cta.length > 0 && (
+                        <div class="card-actions items-center gap-3" data-sb-field-path=".cta">
+                            {cta.map((item, index) => (
+                                <Action
+                                    action={item}
+                                    class:list={[item._type === 'actionLink' ? 'font-bold underline hover:no-underline' : 'px-4 py-2.5 h-auto min-h-0']}
+                                    data-sb-field-path={`.${index}`}
+                                />
+                            ))}
+                        </div>
+                    )
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    @reference "../styles/globals.css";
+    .f-card-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        background: radial-gradient(60% 60% at 50% 0%, rgba(56, 189, 248, 0.25), rgba(217, 70, 239, 0.18) 40%, rgba(251, 191, 36, 0.12) 70%, transparent 100%);
+        filter: blur(24px);
+        opacity: 0;
+        transition: opacity 250ms ease;
+        pointer-events: none;
+    }
+    .f-card-wrapper:hover::before {
+        opacity: 1;
+    }
+</style>
