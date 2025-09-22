@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Facebook, Instagram, Mail, Phone, Star, Twitter, X, Youtube, Zap } from 'lucide-react';
-import type { ProductCardItem } from 'types';
+import type { ProductCardItem, StoriesSection, HeroCarouselSection, CategoriesSection, FlashSaleSection, SupportSection } from 'types';
 
 interface Product {
     id: string;
@@ -46,7 +46,7 @@ const featuredProducts: Product[] = [
     }
 ];
 
-const categories = [
+const STATIC_CATEGORIES = [
     { name: 'Electronics', icon: '📱', count: '120+ items', gradient: 'from-blue-500/80 to-purple-600/80' },
     { name: 'Fashion', icon: '👕', count: '85+ items', gradient: 'from-pink-500/80 to-rose-600/80' },
     { name: 'Home', icon: '🏠', count: '95+ items', gradient: 'from-green-500/80 to-emerald-600/80' },
@@ -82,7 +82,7 @@ const storyContent: Record<
     '5': { title: 'Home Decor', slides: [{ image: '/cozy-cabin-interior.png', text: '🏠 Transform your space with our Home Decor collection!', duration: 5000 }] }
 };
 
-const stories = [
+const STATIC_STORIES = [
     { id: '1', name: 'New Arrivals', image: '/modern-wireless-headphones.jpg', isViewed: false },
     { id: '2', name: 'Flash Sale', image: '/sleek-smartwatch.jpg', isViewed: true },
     { id: '3', name: 'Electronics', image: '/portable-bluetooth-speaker.jpg', isViewed: false },
@@ -90,7 +90,7 @@ const stories = [
     { id: '5', name: 'Home Decor', image: '/cozy-cabin-interior.png', isViewed: true }
 ];
 
-const discountedProducts: (Product & { originalPrice: number; discount: number })[] = [
+const STATIC_FLASH_PRODUCTS: (Product & { originalPrice: number; discount: number })[] = [
     {
         id: 'd1',
         name: 'Gaming Mouse',
@@ -126,7 +126,7 @@ const discountedProducts: (Product & { originalPrice: number; discount: number }
     }
 ];
 
-const banners = [
+const STATIC_BANNERS = [
     { id: 1, title: 'Up to 50% Off Everything', subtitle: "Don't miss out on our biggest sale of the year", buttonText: 'Shop Sale', buttonLink: '/products', badge: 'Limited Time Offer', gradient: 'from-primary to-primary/80' },
     { id: 2, title: 'New Arrivals Just Dropped', subtitle: 'Discover the latest trends and must-have items', buttonText: 'Explore New', buttonLink: '/products?filter=new', badge: 'Fresh Collection', gradient: 'from-purple-500 to-pink-500' },
     { id: 3, title: 'Free Shipping Weekend', subtitle: 'No minimum order required - shop now and save', buttonText: 'Shop Now', buttonLink: '/products', badge: 'This Weekend Only', gradient: 'from-green-500 to-emerald-500' },
@@ -135,7 +135,29 @@ const banners = [
 
 type FeaturedInput = { _id?: string; heading?: string; body?: string; items?: ProductCardItem[] };
 
-export default function TelegramShopHome({ featured, pageId, featuredFieldPath }: { featured?: FeaturedInput; pageId?: string; featuredFieldPath?: string }) {
+interface TelegramShopHomeProps {
+    stories?: StoriesSection;
+    storiesFieldPath?: string;
+    heroCarousel?: HeroCarouselSection;
+    heroCarouselFieldPath?: string;
+    categories?: CategoriesSection;
+    categoriesFieldPath?: string;
+    flashSale?: FlashSaleSection;
+    flashSaleFieldPath?: string;
+    featured?: FeaturedInput;
+    featuredFieldPath?: string;
+    support?: SupportSection;
+    supportFieldPath?: string;
+}
+
+export default function TelegramShopHome({ 
+    stories, storiesFieldPath,
+    heroCarousel, heroCarouselFieldPath,
+    categories, categoriesFieldPath,
+    flashSale, flashSaleFieldPath,
+    featured, featuredFieldPath,
+    support, supportFieldPath
+}: TelegramShopHomeProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -144,7 +166,7 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
     const [slideProgress, setSlideProgress] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => setCurrentBannerIndex((prev) => (prev + 1) % banners.length), 4000);
+        const interval = setInterval(() => setCurrentBannerIndex((prev) => (prev + 1) % (heroCarousel?.banners?.length || STATIC_BANNERS.length)), 4000);
         return () => clearInterval(interval);
     }, []);
 
@@ -216,7 +238,18 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
 
     const cartTotal = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     const cartItemCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
-    const currentBanner = banners[currentBannerIndex];
+    
+    // Use CMS data or fallback to static
+    const activeBanners = heroCarousel?.banners ?? STATIC_BANNERS;
+    const activeCategories = categories?.items ?? STATIC_CATEGORIES;
+    const activeFlashProducts = flashSale?.items ?? STATIC_FLASH_PRODUCTS;
+    const activeStories = stories?.items ?? STATIC_STORIES;
+    const activeSupportItems = support?.items || [
+        { icon: 'Phone', title: 'Phone Support', description: 'Have a question about your order, product, or need assistance? Call our support team at +1 (555) 123-4567.', actionText: 'Call Support', actionLink: 'tel:+15551234567' },
+        { icon: 'Mail', title: 'Email Support', description: 'Have a question about your order, product, or need assistance? Email us at support@teleshop.com.', actionText: 'Email Support', actionLink: 'mailto:support@teleshop.com' }
+    ];
+    
+    const currentBanner = activeBanners[currentBannerIndex % activeBanners.length];
 
     return (
         <div className="min-h-screen bg-base-100">
@@ -229,38 +262,47 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
             </header>
 
             <main className="mx-auto max-w-7xl px-4 py-6 space-y-8">
-                <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Stories</h2>
-                    <div className="flex gap-4 overflow-x-auto pb-2">
-                        {stories.map((story) => (
-                            <button key={story.id} className="flex-shrink-0 text-center space-y-2" onClick={() => openStory(story.id)}>
+                <section className="space-y-4" {...(storiesFieldPath ? ({ 'data-sb-field-path': storiesFieldPath } as any) : {})}>
+                    <h2 className="text-xl font-semibold" data-sb-field-path={stories?.heading ? '.heading' : undefined}>
+                        {stories?.heading || 'Stories'}
+                    </h2>
+                    <div className="flex gap-4 overflow-x-auto pb-2" data-sb-field-path={'.items'}>
+                        {activeStories.map((story, idx) => (
+                            <button key={story.id || idx} className="flex-shrink-0 text-center space-y-2" onClick={() => openStory(story.id || String(idx))} data-sb-field-path={`.${idx}`}>
                                 <div className={`w-16 h-16 rounded-full p-0.5 ${story.isViewed ? 'bg-base-200' : 'bg-gradient-to-tr from-primary to-primary/60'}`}>
                                     <div className="w-full h-full rounded-full bg-base-100 p-0.5">
-                                        <img src={story.image || '/placeholder.svg'} onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt={story.name} className="w-full h-full rounded-full object-cover" />
+                                        <img 
+                                            src={(story.cover?.src || story.image) || '/placeholder.svg'} 
+                                            onError={(e) => (e.currentTarget.src = '/placeholder.svg')} 
+                                            alt={story.name} 
+                                            className="w-full h-full rounded-full object-cover" 
+                                            {...(story.cover?._id ? { 'data-sb-object-id': story.cover._id } as any : {})}
+                                            data-sb-field-path={'.cover'}
+                                        />
                                     </div>
                                 </div>
-                                <p className="text-xs opacity-70 max-w-[64px] truncate">{story.name}</p>
+                                <p className="text-xs opacity-70 max-w-[64px] truncate" data-sb-field-path={'.name'}>{story.name}</p>
                             </button>
                         ))}
                     </div>
                 </section>
 
-                <section className={`relative rounded-xl overflow-hidden bg-gradient-to-r ${currentBanner.gradient} text-white`}>
+                <section className={`relative rounded-xl overflow-hidden bg-gradient-to-r ${currentBanner.gradient} text-white`} {...(heroCarouselFieldPath ? ({ 'data-sb-field-path': heroCarouselFieldPath } as any) : {})}>
                     <div className="absolute inset-0 bg-black/20" />
-                    <div className="relative p-8 md:p-12 text-center space-y-4">
-                        <span className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs bg-black/40 border border-white/30 backdrop-blur-sm">
+                    <div className="relative p-8 md:p-12 text-center space-y-4" data-sb-field-path={'.banners'} data-sb-field-path-index={currentBannerIndex}>
+                        <span className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs bg-black/40 border border-white/30 backdrop-blur-sm" data-sb-field-path={`.${currentBannerIndex}.badge`}>
                             <Zap className="w-3 h-3" />
                             {currentBanner.badge}
                         </span>
-                        <h1 className="text-3xl md:text-5xl font-bold text-balance">{currentBanner.title}</h1>
-                        <p className="text-lg opacity-90 max-w-xl mx-auto">{currentBanner.subtitle}</p>
+                        <h1 className="text-3xl md:text-5xl font-bold text-balance" data-sb-field-path={`.${currentBannerIndex}.title`}>{currentBanner.title}</h1>
+                        <p className="text-lg opacity-90 max-w-xl mx-auto" data-sb-field-path={`.${currentBannerIndex}.subtitle`}>{currentBanner.subtitle}</p>
                         <a href={currentBanner.buttonLink} className="inline-flex items-center gap-2 bg-white text-black rounded-md px-6 py-3 font-semibold">
-                            {currentBanner.buttonText}
+                            <span data-sb-field-path={`.${currentBannerIndex}.buttonText`}>{currentBanner.buttonText}</span>
                             <ArrowRight className="w-5 h-5" />
                         </a>
                     </div>
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                        {banners.map((_, i) => (
+                        {activeBanners.map((_, i) => (
                             <button key={i} onClick={() => setCurrentBannerIndex(i)} className={`w-2 h-2 rounded-full ${i === currentBannerIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'}`} />
                         ))}
                     </div>
@@ -402,28 +444,34 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
                 </section>
 
                 {/* Shop by Category */}
-                <section className="space-y-6">
+                <section className="space-y-6" {...(categoriesFieldPath ? ({ 'data-sb-field-path': categoriesFieldPath } as any) : {})}>
                     <div className="flex items-center justify-between">
                         <div className="space-y-2">
-                            <h2 className="text-3xl font-bold">Shop by Category</h2>
-                            <p className="opacity-70">Find exactly what you're looking for</p>
+                            <h2 className="text-3xl font-bold" data-sb-field-path={categories?.heading ? '.heading' : undefined}>
+                                {categories?.heading || 'Shop by Category'}
+                            </h2>
+                            {categories?.body ? (
+                                <p className="opacity-70" data-sb-field-path={'.body'}>{categories.body}</p>
+                            ) : (
+                                <p className="opacity-70">Find exactly what you're looking for</p>
+                            )}
                         </div>
                         <a href="/products" className="inline-flex items-center gap-2 rounded-md border px-3 py-2">
                             View All
                             <ArrowRight className="w-4 h-4" />
                         </a>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {categories.map((category) => (
-                            <a key={category.name} href={`/products?category=${category.name}`} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-base-100 to-base-200 border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-sb-field-path={'.items'}>
+                        {activeCategories.map((category, idx) => (
+                            <a key={category.name || idx} href={category.url || `/products?category=${category.name}`} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-base-100 to-base-200 border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer" data-sb-field-path={`.${idx}`}>
                                 <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
                                 <div className="relative p-6 h-32 flex flex-col justify-between">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1">
-                                            <h3 className="text-lg font-bold group-hover:text-primary transition-colors duration-300">{category.name}</h3>
-                                            <p className="text-sm opacity-70 font-medium">{category.count}</p>
+                                            <h3 className="text-lg font-bold group-hover:text-primary transition-colors duration-300" data-sb-field-path={'.name'}>{category.name}</h3>
+                                            <p className="text-sm opacity-70 font-medium" data-sb-field-path={'.count'}>{category.count}</p>
                                         </div>
-                                        <div className="text-2xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">{category.icon}</div>
+                                        <div className="text-2xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" data-sb-field-path={'.icon'}>{category.icon}</div>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <div className="text-xs opacity-60 group-hover:text-primary transition-colors duration-300">Explore collection</div>
@@ -437,55 +485,67 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
                 </section>
 
                 {/* Flash Sale */}
-                <section className="space-y-6">
+                <section className="space-y-6" {...(flashSaleFieldPath ? ({ 'data-sb-field-path': flashSaleFieldPath } as any) : {})}>
                     <div className="relative rounded-2xl p-6 border" style={{ background: 'linear-gradient(90deg, rgba(255,0,0,0.04), rgba(255,165,0,0.04))' }}>
                         <div className="absolute top-4 right-4 z-20">
                             <span className="inline-block rounded-md px-2 py-1 text-xs bg-red-500 text-white animate-pulse">🔥 Hot Deals</span>
                         </div>
                         <div className="space-y-2 mb-6">
-                            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">Flash Sale</h2>
-                            <p className="opacity-70">Limited time offers - grab them before they're gone!</p>
+                            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent" data-sb-field-path={flashSale?.heading ? '.heading' : undefined}>
+                                {flashSale?.heading || 'Flash Sale'}
+                            </h2>
+                            <p className="opacity-70" data-sb-field-path={flashSale?.subtitle ? '.subtitle' : undefined}>
+                                {flashSale?.subtitle || 'Limited time offers - grab them before they\'re gone!'}
+                            </p>
                             <div className="flex items-center gap-2 text-sm text-red-600">
                                 <Zap className="w-4 h-4" />
-                                <span className="font-medium">Ends in 23:59:45</span>
+                                <span className="font-medium" data-sb-field-path={flashSale?.endsIn ? '.endsIn' : undefined}>
+                                    {flashSale?.endsIn || 'Ends in 23:59:45'}
+                                </span>
                             </div>
                         </div>
                         <div className="md:overflow-x-auto md:pb-4">
-                            <div className="grid grid-cols-1 gap-4 md:flex md:gap-4 md:min-w-max">
-                                {discountedProducts.map((product) => (
-                                    <a key={product.id} href={`/product/${product.id}`} className="block">
+                            <div className="grid grid-cols-1 gap-4 md:flex md:gap-4 md:min-w-max" data-sb-field-path={'.items'}>
+                                {activeFlashProducts.map((product, idx) => (
+                                    <a key={product.id || idx} href={product.url || `/product/${product.id}`} className="block" data-sb-field-path={`.${idx}`}>
                                         <div className="bg-base-100 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full md:w-72 md:flex-shrink-0 border cursor-pointer">
                                             <div className="relative">
-                                                <span className="absolute top-3 left-3 z-10 rounded-md px-3 py-1 text-xs bg-red-500 text-white">-{product.discount}% OFF</span>
+                                                <span className="absolute top-3 left-3 z-10 rounded-md px-3 py-1 text-xs bg-red-500 text-white" data-sb-field-path={'.discount'}>-{product.discount}% OFF</span>
                                                 <div className="absolute top-3 right-3 z-10">
-                                                    <div className="bg-base-100/90 rounded-full px-2 py-1 text-xs font-medium">Save ${(product.originalPrice - product.price).toFixed(2)}</div>
+                                                    <div className="bg-base-100/90 rounded-full px-2 py-1 text-xs font-medium">Save ${((product.originalPrice || 0) - (product.price || 0)).toFixed(2)}</div>
                                                 </div>
-                                                <div className="aspect-square bg-base-200 relative overflow-hidden">
-                                                    <img src={product.image || '/placeholder.svg'} onError={(e) => (e.currentTarget.src = '/placeholder.svg')} alt={product.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                                                <div className="aspect-square bg-base-200 relative overflow-hidden" data-sb-field-path={'.image'}>
+                                                    <img 
+                                                        src={(product.image?.src || product.image) || '/placeholder.svg'} 
+                                                        onError={(e) => (e.currentTarget.src = '/placeholder.svg')} 
+                                                        alt={product.name} 
+                                                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" 
+                                                        {...(product.image?._id ? { 'data-sb-object-id': product.image._id } as any : {})}
+                                                    />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                                                 </div>
                                             </div>
                                             <div className="p-5 space-y-4">
                                                 <div className="space-y-2">
-                                                    <h3 className="font-bold text-lg leading-tight">{product.name}</h3>
-                                                    <p className="text-sm opacity-70 line-clamp-2">{product.description}</p>
+                                                    <h3 className="font-bold text-lg leading-tight" data-sb-field-path={'.name'}>{product.name}</h3>
+                                                    <p className="text-sm opacity-70 line-clamp-2" data-sb-field-path={'.description'}>{product.description}</p>
                                                 </div>
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="flex items-center gap-1">
+                                                        <div className="flex items-center gap-1" data-sb-field-path={'.rating'}>
                                                             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                                                             <span className="text-sm font-medium">{product.rating}</span>
                                                         </div>
-                                                        <span className="text-xs rounded-md px-2 py-0.5 bg-base-200">{product.category}</span>
+                                                        <span className="text-xs rounded-md px-2 py-0.5 bg-base-200" data-sb-field-path={'.category'}>{product.category}</span>
                                                     </div>
                                                 </div>
                                                 <div className="space-y-3">
                                                     <div className="flex items-baseline gap-2">
-                                                        <span className="text-2xl font-bold text-red-600">${product.price}</span>
-                                                        <span className="text-lg opacity-70 line-through">${product.originalPrice}</span>
+                                                        <span className="text-2xl font-bold text-red-600" data-sb-field-path={'.price'}>${product.price}</span>
+                                                        <span className="text-lg opacity-70 line-through" data-sb-field-path={'.originalPrice'}>${product.originalPrice}</span>
                                                     </div>
                                                     <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(product); }} className="w-full rounded-md px-4 py-2 bg-red-500 text-white font-medium">
-                                                        Add to Cart - Save ${(product.originalPrice - product.price).toFixed(2)}
+                                                        Add to Cart - Save ${((product.originalPrice || 0) - (product.price || 0)).toFixed(2)}
                                                     </button>
                                                 </div>
                                             </div>
@@ -576,48 +636,41 @@ export default function TelegramShopHome({ featured, pageId, featuredFieldPath }
                 </section>
 
                 {/* Need Help */}
-                <section className="space-y-6">
+                <section className="space-y-6" {...(supportFieldPath ? ({ 'data-sb-field-path': supportFieldPath } as any) : {})}>
                     <div className="text-center space-y-2">
-                        <h2 className="text-3xl font-bold">Need Help?</h2>
-                        <p className="opacity-70">Our support team is here to assist you 24/7</p>
+                        <h2 className="text-3xl font-bold" data-sb-field-path={support?.heading ? '.heading' : undefined}>
+                            {support?.heading || 'Need Help?'}
+                        </h2>
+                        {support?.body ? (
+                            <p className="opacity-70" data-sb-field-path={'.body'}>{support.body}</p>
+                        ) : (
+                            <p className="opacity-70">Our support team is here to assist you 24/7</p>
+                        )}
                     </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div className="bg-base-100 rounded-2xl p-6 border space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                                    <Phone className="w-4 h-4 text-primary" />
+                    <div className="grid md:grid-cols-2 gap-6" data-sb-field-path={'.items'}>
+                        {activeSupportItems.map((item, idx) => {
+                            const IconComponent = item.icon === 'Phone' ? Phone : Mail;
+                            return (
+                                <div key={idx} className="bg-base-100 rounded-2xl p-6 border space-y-4" data-sb-field-path={`.${idx}`}>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                            <IconComponent className="w-4 h-4 text-primary" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold" data-sb-field-path={'.title'}>{item.title}</h3>
+                                            <p className="text-sm opacity-70">Get help over the {item.icon?.toLowerCase()}</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <p className="text-sm" data-sb-field-path={'.description'}>{item.description}</p>
+                                        <a href={item.actionLink} className="w-full inline-flex justify-center items-center gap-2 rounded-md px-4 py-3 bg-primary text-primary-content">
+                                            <IconComponent className="w-4 h-4" />
+                                            <span data-sb-field-path={'.actionText'}>{item.actionText}</span>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-semibold">Phone Support</h3>
-                                    <p className="text-sm opacity-70">Get help over the phone</p>
-                                </div>
-                            </div>
-                            <div className="space-y-3">
-                                <p className="text-sm">Have a question about your order, product, or need assistance? Call our support team at +1 (555) 123-4567.</p>
-                                <a href="tel:+15551234567" className="w-full inline-flex justify-center items-center gap-2 rounded-md px-4 py-3 bg-primary text-primary-content">
-                                    <Phone className="w-4 h-4" />
-                                    Call Support
-                                </a>
-                            </div>
-                        </div>
-                        <div className="bg-base-100 rounded-2xl p-6 border space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                                    <Mail className="w-4 h-4 text-primary" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold">Email Support</h3>
-                                    <p className="text-sm opacity-70">Send us an email</p>
-                                </div>
-                            </div>
-                            <div className="space-y-3">
-                                <p className="text-sm">Have a question about your order, product, or need assistance? Email us at support@teleshop.com.</p>
-                                <a href="mailto:support@teleshop.com" className="w-full inline-flex justify-center items-center gap-2 rounded-md px-4 py-3 bg-primary text-primary-content">
-                                    <Mail className="w-4 h-4" />
-                                    Email Support
-                                </a>
-                            </div>
-                        </div>
+                            );
+                        })}
                     </div>
                 </section>
             </main>

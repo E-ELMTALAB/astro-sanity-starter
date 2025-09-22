@@ -1,10 +1,9 @@
 import { type ModelExtension } from '@stackbit/types';
 import { commonFields } from './sectionCommon';
 
-export const featuredProductsSection: ModelExtension = {
-    name: 'featuredProductsSection',
+export const categoriesSection: ModelExtension = {
+    name: 'categoriesSection',
     fields: [...commonFields]
 };
-
 
 

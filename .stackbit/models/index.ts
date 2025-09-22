@@ -8,6 +8,11 @@ import { ctaSection } from './ctaSection';
 import { heroSection } from './heroSection';
 import { logosSection } from './logosSection';
 import { featuredProductsSection } from './featuredProductsSection';
+import { heroCarouselSection } from './heroCarouselSection';
+import { categoriesSection } from './categoriesSection';
+import { flashSaleSection } from './flashSaleSection';
+import { storiesSection } from './storiesSection';
+import { supportSection } from './supportSection';
 import { page } from './page';
 import { person } from './person';
 import { siteConfig } from './siteConfig';
@@ -25,6 +30,11 @@ export const allModelExtensions: ModelExtension[] = [
     heroSection,
     logosSection,
     featuredProductsSection,
+    heroCarouselSection,
+    categoriesSection,
+    flashSaleSection,
+    storiesSection,
+    supportSection,
     page,
     person,
     siteConfig,

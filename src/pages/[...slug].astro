@@ -26,10 +26,20 @@ const pages = await getPageById(id);
 const page: Page = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
-const featuredSectionIndex = Array.isArray(sections)
-    ? sections.findIndex((section: any) => section?._type === 'featuredProductsSection')
-    : -1;
-const featuredSection = featuredSectionIndex >= 0 ? sections[featuredSectionIndex] : null;
+
+// Find all section types and their indices for homepage
+const findSection = (type: string) => {
+    if (!Array.isArray(sections)) return { section: null, index: -1 };
+    const index = sections.findIndex((s: any) => s?._type === type);
+    return { section: index >= 0 ? sections[index] : null, index };
+};
+
+const { section: storiesSection, index: storiesIndex } = findSection('storiesSection');
+const { section: heroCarouselSection, index: heroCarouselIndex } = findSection('heroCarouselSection');
+const { section: categoriesSection, index: categoriesIndex } = findSection('categoriesSection');
+const { section: flashSaleSection, index: flashSaleIndex } = findSection('flashSaleSection');
+const { section: featuredSection, index: featuredIndex } = findSection('featuredProductsSection');
+const { section: supportSection, index: supportIndex } = findSection('supportSection');
 
 const componentMap = {
     cardsSection: Cards,
@@ -46,7 +56,21 @@ const componentMap = {
         <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
             {page?.slug?.current === '/' ? (
                 <div data-sb-object-id={_id}>
-                    <TelegramShopHome client:load featured={featuredSection} featuredFieldPath={featuredSectionIndex >= 0 ? `sections.${featuredSectionIndex}` : undefined} />
+                    <TelegramShopHome 
+                        client:load 
+                        stories={storiesSection}
+                        storiesFieldPath={storiesIndex >= 0 ? `sections.${storiesIndex}` : undefined}
+                        heroCarousel={heroCarouselSection}
+                        heroCarouselFieldPath={heroCarouselIndex >= 0 ? `sections.${heroCarouselIndex}` : undefined}
+                        categories={categoriesSection}
+                        categoriesFieldPath={categoriesIndex >= 0 ? `sections.${categoriesIndex}` : undefined}
+                        flashSale={flashSaleSection}
+                        flashSaleFieldPath={flashSaleIndex >= 0 ? `sections.${flashSaleIndex}` : undefined}
+                        featured={featuredSection}
+                        featuredFieldPath={featuredIndex >= 0 ? `sections.${featuredIndex}` : undefined}
+                        support={supportSection}
+                        supportFieldPath={supportIndex >= 0 ? `sections.${supportIndex}` : undefined}
+                    />
                 </div>
             ) : (
                 <div data-sb-object-id={_id}>

@@ -45,6 +45,71 @@ export interface FeaturedProductsSection extends Section {
     items?: Array<ProductCardItem>;
 }
 
+export interface HeroCarouselSection extends Section {
+    banners?: Array<{
+        title?: string;
+        subtitle?: string;
+        buttonText?: string;
+        buttonLink?: string;
+        badge?: string;
+        gradient?: string;
+    }>;
+}
+
+export interface CategoriesSection extends Section {
+    heading?: string;
+    body?: string;
+    items?: Array<{
+        name?: string;
+        icon?: string;
+        count?: string;
+        gradient?: string;
+        url?: string;
+    }>;
+}
+
+export interface FlashSaleSection extends Section {
+    heading?: string;
+    subtitle?: string;
+    endsIn?: string;
+    items?: Array<{
+        image?: CustomImage;
+        name?: string;
+        description?: string;
+        price?: number;
+        originalPrice?: number;
+        discount?: number;
+        category?: string;
+        rating?: number;
+        url?: string;
+    }>;
+}
+
+export interface StoriesSection extends Section {
+    heading?: string;
+    items?: Array<{
+        name?: string;
+        cover?: CustomImage;
+        slides?: Array<{
+            image?: CustomImage;
+            text?: string;
+            duration?: number;
+        }>;
+    }>;
+}
+
+export interface SupportSection extends Section {
+    heading?: string;
+    body?: string;
+    items?: Array<{
+        icon?: string;
+        title?: string;
+        description?: string;
+        actionText?: string;
+        actionLink?: string;
+    }>;
+}
+
 export interface Company {
     _id: string;
     name: string;
@@ -101,7 +166,19 @@ export interface Page {
     _id: string;
     slug: Slug;
     title: string;
-    sections: Array<CardsSection | CtaSection | HeroSection | LogosSection | TestimonialsSection | FeaturedProductsSection>;
+    sections: Array<
+        | CardsSection
+        | CtaSection
+        | HeroSection
+        | LogosSection
+        | TestimonialsSection
+        | FeaturedProductsSection
+        | HeroCarouselSection
+        | CategoriesSection
+        | FlashSaleSection
+        | StoriesSection
+        | SupportSection
+    >;
     metaTitle?: string;
     addTitleSuffix?: boolean;
     metaDescription?: string;
