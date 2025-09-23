@@ -16,6 +16,20 @@ export default defineType({
     defineField({ name: 'category', title: 'Category', type: 'string', group: 'meta' }),
     defineField({ name: 'price', title: 'Price', type: 'number', group: 'meta' }),
     defineField({ name: 'url', title: 'URL', type: 'string', group: 'meta' }),
+    defineField({
+      name: 'productSlug',
+      title: 'Product slug',
+      description: 'Slug passed to the Telegram shop checkout page.',
+      type: 'string',
+      group: 'meta',
+    }),
+    defineField({
+      name: 'variantSku',
+      title: 'Variant SKU',
+      description: 'Optional variant SKU used by the Telegram shop checkout.',
+      type: 'string',
+      group: 'meta',
+    }),
   ],
   preview: {
     select: {

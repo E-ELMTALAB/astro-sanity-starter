@@ -30,6 +30,18 @@ export default defineType({
             { name: 'category', title: 'Category', type: 'string' },
             { name: 'rating', title: 'Rating', type: 'number' },
             { name: 'url', title: 'URL', type: 'string' },
+            {
+              name: 'productSlug',
+              title: 'Product slug',
+              description: 'Slug passed to the Telegram shop checkout page.',
+              type: 'string',
+            },
+            {
+              name: 'variantSku',
+              title: 'Variant SKU',
+              description: 'Optional variant SKU used by the Telegram shop checkout.',
+              type: 'string',
+            },
           ],
         },
       ],
