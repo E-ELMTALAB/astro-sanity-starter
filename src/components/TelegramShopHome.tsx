@@ -20,7 +20,7 @@ const featuredProducts: Product[] = [
     {
         id: '1',
         name: 'Wireless Headphones',
-        price: 99.99,
+        price: 99.98,
         image: '/modern-wireless-headphones.jpg',
         category: 'Electronics',
         rating: 4.5,
