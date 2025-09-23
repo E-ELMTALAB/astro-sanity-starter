@@ -1,14 +1,9 @@
 ---
 import type { Page } from 'types';
-import Layout from '@layouts/Layout.astro';
-import Cards from '@components/Cards.astro';
-import Cta from '@components/Cta.astro';
-import Hero from '@components/Hero.astro';
-import Logos from '@components/Logos.astro';
-import FeaturedProducts from '@components/FeaturedProducts.astro';
-import Testimonials from '@components/Testimonials.astro';
 import TelegramShopHome from '@components/TelegramShopHome.tsx';
 import { fetchData, getPageById } from '@data/page';
+import { fetchData as fetchSiteConfig } from '@data/siteConfig';
+import Layout from '@layouts/Layout.astro';
 
 export async function getStaticPaths() {
     const data = await fetchData();
@@ -26,11 +21,13 @@ const pages = await getPageById(id);
 const page: Page = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
+const siteConfig = await fetchSiteConfig();
 
 // Find all section types and their indices for homepage
+const sectionsArray = Array.isArray(sections) ? sections : [];
+
 const findSection = (type: string) => {
-    if (!Array.isArray(sections)) return { section: null, index: -1 };
-    const index = sections.findIndex((s: any) => s?._type === type);
+    const index = sectionsArray.findIndex((s: any) => s?._type === type);
     return { section: index >= 0 ? sections[index] : null, index };
 };
 
@@ -41,23 +38,21 @@ const { section: flashSaleSection, index: flashSaleIndex } = findSection('flashS
 const { section: featuredSection, index: featuredIndex } = findSection('featuredProductsSection');
 const { section: supportSection, index: supportIndex } = findSection('supportSection');
 
-const componentMap = {
-    cardsSection: Cards,
-    ctaSection: Cta,
-    heroSection: Hero,
-    logosSection: Logos,
-    featuredProductsSection: FeaturedProducts,
-    testimonialsSection: Testimonials
-};
+const isHomePage = page?.slug?.current === '/';
 ---
 
 {
     page && (
-        <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
-            {page?.slug?.current === '/' ? (
+        <Layout
+            title={metaTitle ?? title}
+            description={metaDescription}
+            image={socialImage}
+            siteConfig={siteConfig}
+        >
+            {isHomePage ? (
                 <div data-sb-object-id={_id}>
-                    <TelegramShopHome 
-                        client:load 
+                    <TelegramShopHome
+                        client:load
                         stories={storiesSection}
                         storiesFieldPath={storiesIndex >= 0 ? `sections.${storiesIndex}` : undefined}
                         heroCarousel={heroCarouselSection}
@@ -70,16 +65,13 @@ const componentMap = {
                         featuredFieldPath={featuredIndex >= 0 ? `sections.${featuredIndex}` : undefined}
                         support={supportSection}
                         supportFieldPath={supportIndex >= 0 ? `sections.${supportIndex}` : undefined}
+                        checkoutBaseUrl={siteConfig?.checkoutBaseUrl}
+                        checkoutProductParam={siteConfig?.checkoutProductParam}
+                        checkoutVariantParam={siteConfig?.checkoutVariantParam}
                     />
                 </div>
             ) : (
-                <div data-sb-object-id={_id}>
-                    {sections?.length &&
-                        sections.map((section, idx) => {
-                            const Component = componentMap[section._type];
-                            return <Component {...section} data-sb-field-path={`sections.${idx}`} />;
-                        })}
-                </div>
+                <div data-sb-object-id={_id} />
             )}
         </Layout>
     )

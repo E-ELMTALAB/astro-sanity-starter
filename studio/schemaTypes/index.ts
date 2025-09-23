@@ -1,16 +1,6 @@
-import actionButton from './actionButton'
-import actionLink from './actionLink'
-import backgroundImage from './backgroundImage'
-import badge from './badge'
-import card from './card'
-import cardsSection from './cardsSection'
-import company from './company'
-import ctaSection from './ctaSection'
 import customImage from './customImage'
 import footer from './footer'
 import header from './header'
-import heroSection from './heroSection'
-import logosSection from './logosSection'
 import featuredProductsSection from './featuredProductsSection'
 import productCard from './productCard'
 import heroCarouselSection from './heroCarouselSection'
@@ -19,25 +9,14 @@ import flashSaleSection from './flashSaleSection'
 import storiesSection from './storiesSection'
 import supportSection from './supportSection'
 import page from './page'
-import person from './person'
+import navItem from './navItem'
 import siteConfig from './siteConfig'
-import testimonial from './testimonial'
-import testimonialsSection from './testimonialsSection'
 
 export const schemaTypes = [
-  actionButton,
-  actionLink,
-  backgroundImage,
-  badge,
-  card,
-  cardsSection,
-  company,
-  ctaSection,
   customImage,
   footer,
   header,
-  heroSection,
-  logosSection,
+  navItem,
   featuredProductsSection,
   productCard,
   heroCarouselSection,
@@ -46,8 +25,5 @@ export const schemaTypes = [
   storiesSection,
   supportSection,
   page,
-  person,
   siteConfig,
-  testimonial,
-  testimonialsSection,
 ]

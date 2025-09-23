@@ -38,6 +38,27 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      name: 'checkoutBaseUrl',
+      title: 'Checkout Base URL',
+      description: 'Base URL for the Next.js checkout page (e.g. /checkout or https://shop.example.com/checkout)',
+      type: 'string',
+      group: 'content',
+    }),
+    defineField({
+      name: 'checkoutProductParam',
+      title: 'Checkout product query parameter',
+      type: 'string',
+      group: 'content',
+      initialValue: 'product',
+    }),
+    defineField({
+      name: 'checkoutVariantParam',
+      title: 'Checkout variant query parameter',
+      type: 'string',
+      group: 'content',
+      initialValue: 'variant',
+    }),
+    defineField({
       name: 'titleSuffix',
       title: 'Suffix for page titles',
       description:

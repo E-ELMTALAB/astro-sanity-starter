@@ -20,8 +20,10 @@ export default defineType({
           fields: [
             { name: 'title', title: 'Title', type: 'string' },
             { name: 'subtitle', title: 'Subtitle', type: 'string' },
-            { name: 'buttonText', title: 'Button Text', type: 'string' },
-            { name: 'buttonLink', title: 'Button Link', type: 'string' },
+            { name: 'ctaLabel', title: 'CTA Label', type: 'string' },
+            { name: 'productSlug', title: 'Product Slug', type: 'string' },
+            { name: 'variantSku', title: 'Variant SKU', type: 'string' },
+            { name: 'quantity', title: 'Quantity', type: 'number' },
             { name: 'badge', title: 'Badge', type: 'string' },
             { name: 'gradient', title: 'Gradient (Tailwind classes)', type: 'string' },
           ],

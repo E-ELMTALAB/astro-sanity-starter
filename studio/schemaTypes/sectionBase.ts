@@ -28,12 +28,6 @@ export const SECTION_BASE_FIELDS = [
     group: 'styles',
   }),
   defineField({
-    name: 'backgroundImage',
-    title: 'Background Image',
-    type: 'backgroundImage',
-    group: 'styles',
-  }),
-  defineField({
     name: 'width',
     title: 'Width',
     description:

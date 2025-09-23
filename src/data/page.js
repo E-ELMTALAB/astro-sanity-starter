@@ -10,7 +10,14 @@ const PAGE_QUERY_OBJ = `{
   "socialImage": {
     "src": socialImage.asset->url
   },
-  sections[] ${SECTIONS}
+  sections[_type in [
+    "featuredProductsSection",
+    "heroCarouselSection",
+    "categoriesSection",
+    "flashSaleSection",
+    "storiesSection",
+    "supportSection"
+  ]] ${SECTIONS}
 }`;
 
 export async function fetchData() {

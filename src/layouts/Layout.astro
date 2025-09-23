@@ -11,20 +11,25 @@ interface Props {
     addTitleSuffix?: boolean;
     description?: string;
     image?: CustomImage;
+    siteConfig?: SiteConfig;
 }
 
-const { addTitleSuffix, description, image } = Astro.props;
+const { addTitleSuffix, description, image, siteConfig } = Astro.props;
 
-let configData: SiteConfig = {};
-try {
-    configData = (await fetchData()) || {};
-} catch (e) {
-    configData = {};
+let configData: SiteConfig = siteConfig || {};
+if (!configData?._id) {
+    try {
+        configData = (await fetchData()) || {};
+    } catch (e) {
+        configData = {};
+    }
 }
 const titleSuffix = configData.titleSuffix && addTitleSuffix !== false ? configData.titleSuffix : undefined;
 const title = [Astro.props.title, titleSuffix].filter(Boolean).join(' | ');
 const resolvedImage = image?.src ? { src: new URL(image.src, Astro.site).toString() } : undefined;
 const canonicalURL = new URL(Astro.request.url, Astro.site);
+const headerFieldPath = configData._id ? `${configData._id}:header` : undefined;
+const footerFieldPath = configData._id ? `${configData._id}:footer` : undefined;
 
 /**
  * Enforce some standard canonical URL formatting across the site.
@@ -77,9 +82,9 @@ function formatCanonicalURL(url: string | URL) {
         {resolvedImage?.src && <meta property="twitter:image" content={resolvedImage.src} />}
     </head>
     <body class="antialiased">
-        <Header {...configData.header} data-sb-field-path={`${configData._id}:header`} />
+        <Header {...configData.header} data-sb-field-path={headerFieldPath} />
         <slot />
-        <Footer {...configData.footer} data-sb-field-path={`${configData._id}:footer`} />
+        <Footer {...configData.footer} data-sb-field-path={footerFieldPath} />
         <script is:inline>
             window.addEventListener('stackbitObjectsChanged', () => {
                 window.location.reload();

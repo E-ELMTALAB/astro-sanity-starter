@@ -28,10 +28,10 @@ export default defineType({
       group: 'content',
     }),
     defineField({
-      name: 'navLinks',
+      name: 'navItems',
       title: 'Navigation links',
       type: 'array',
-      of: [{type: 'actionButton'}, {type: 'actionLink'}],
+      of: [{type: 'navItem'}],
       group: 'content',
     }),
   ],
