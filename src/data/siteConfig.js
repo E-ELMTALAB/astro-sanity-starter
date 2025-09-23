@@ -7,11 +7,21 @@ const CONFIG_QUERY_OBJ = `{
     "src": favicon.asset->url
   },
   header {
-    ...,
-    logo ${IMAGE}
+    title,
+    logo ${IMAGE},
+    navItems[] {
+      _key,
+      label,
+      href
+    }
   },
-  footer,
-  titleSuffix
+  footer {
+    text
+  },
+  titleSuffix,
+  checkoutBaseUrl,
+  checkoutProductParam,
+  checkoutVariantParam
 }`;
 
 export async function fetchData() {
