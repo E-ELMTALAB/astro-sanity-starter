@@ -1,0 +1,10 @@
+{
+  "basePath": "/checkout",
+  "paramConfig": {
+    "required": ["productId"],
+    "optional": ["quantity", "variantId", "ref"],
+    "defaults": {
+      "quantity": "1"
+    }
+  }
+}

@@ -1,2 +1,6 @@
+[build]
+  command = "pnpm ci:astro"
+  publish = "dist"
+
 [dev]
   targetPort = 3000

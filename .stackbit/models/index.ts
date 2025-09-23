@@ -1,44 +1,26 @@
 import { type ModelExtension } from '@stackbit/types';
-import { backgroundImage } from './backgroundImage';
-import { badge } from './badge';
 import { actionButton } from './actionButton';
-import { card } from './card';
-import { cardsSection } from './cardsSection';
-import { ctaSection } from './ctaSection';
-import { heroSection } from './heroSection';
-import { logosSection } from './logosSection';
-import { featuredProductsSection } from './featuredProductsSection';
-import { heroCarouselSection } from './heroCarouselSection';
+import { backgroundImage } from './backgroundImage';
 import { categoriesSection } from './categoriesSection';
+import { featuredProductsSection } from './featuredProductsSection';
 import { flashSaleSection } from './flashSaleSection';
+import { heroCarouselSection } from './heroCarouselSection';
+import { page } from './page';
+import { productCard } from './productCard';
+import { siteConfig } from './siteConfig';
 import { storiesSection } from './storiesSection';
 import { supportSection } from './supportSection';
-import { page } from './page';
-import { person } from './person';
-import { siteConfig } from './siteConfig';
-import { testimonial } from './testimonial';
-import { productCard } from './productCard';
-import { testimonialsSection } from './testimonialsSection';
 
 export const allModelExtensions: ModelExtension[] = [
     actionButton,
     backgroundImage,
-    badge,
-    card,
-    cardsSection,
-    ctaSection,
-    heroSection,
-    logosSection,
-    featuredProductsSection,
-    heroCarouselSection,
     categoriesSection,
+    featuredProductsSection,
     flashSaleSection,
-    storiesSection,
-    supportSection,
+    heroCarouselSection,
     page,
-    person,
-    siteConfig,
-    testimonial,
     productCard,
-    testimonialsSection
+    siteConfig,
+    storiesSection,
+    supportSection
 ];

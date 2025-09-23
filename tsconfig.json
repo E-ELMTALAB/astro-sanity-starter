@@ -11,7 +11,10 @@
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@data/*": ["src/data/*"],
+      "@telegram-shop/*": ["telegram-shop/*"]
     },
+    "module": "esnext",
+    "moduleResolution": "node",
     "jsx": "react"
   }
 }

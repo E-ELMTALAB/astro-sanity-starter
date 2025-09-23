@@ -3,7 +3,13 @@ import { commonFields } from './sectionCommon';
 
 export const flashSaleSection: ModelExtension = {
     name: 'flashSaleSection',
-    fields: [...commonFields]
+    fields: [
+        ...commonFields,
+        { name: 'heading' },
+        { name: 'subtitle' },
+        { name: 'endsIn' },
+        { name: 'items' }
+    ]
 };
 
 

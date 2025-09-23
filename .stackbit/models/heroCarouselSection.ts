@@ -3,7 +3,10 @@ import { commonFields } from './sectionCommon';
 
 export const heroCarouselSection: ModelExtension = {
     name: 'heroCarouselSection',
-    fields: [...commonFields]
+    fields: [
+        ...commonFields,
+        { name: 'banners' }
+    ]
 };
 
 

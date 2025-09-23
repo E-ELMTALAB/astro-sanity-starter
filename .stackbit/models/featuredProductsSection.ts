@@ -3,7 +3,12 @@ import { commonFields } from './sectionCommon';
 
 export const featuredProductsSection: ModelExtension = {
     name: 'featuredProductsSection',
-    fields: [...commonFields]
+    fields: [
+        ...commonFields,
+        { name: 'heading' },
+        { name: 'body' },
+        { name: 'items' }
+    ]
 };
 
 
