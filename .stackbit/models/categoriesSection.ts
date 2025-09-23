@@ -3,7 +3,12 @@ import { commonFields } from './sectionCommon';
 
 export const categoriesSection: ModelExtension = {
     name: 'categoriesSection',
-    fields: [...commonFields]
+    fields: [
+        ...commonFields,
+        { name: 'heading' },
+        { name: 'body' },
+        { name: 'items' }
+    ]
 };
 
 

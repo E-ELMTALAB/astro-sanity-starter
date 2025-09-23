@@ -11,42 +11,47 @@ export interface ActionButton extends Action {
 
 export interface ActionLink extends Action {}
 
+export interface CustomImage {
+    _id?: string;
+    src: string;
+    alt?: string;
+    dimensions?: { height: number; width: number };
+}
+
 export interface BackgroundImage {
     image?: CustomImage;
     opacity?: number;
 }
 
-export interface Badge {
-    label: string;
-    theme?: 'primary' | 'secondary' | 'accent' | 'neutral';
+export interface Section {
+    _type?: string;
+    _key?: string;
+    theme?: 'light' | 'dark';
+    backgroundImage?: BackgroundImage;
+    width?: 'full' | 'inset';
 }
 
-export interface Card {
-    badge?: Badge;
+export interface StoriesSection extends Section {
     heading?: string;
-    body?: string;
-    cta?: Array<ActionButton | ActionLink>;
-    image?: CustomImage;
-    theme?: 'light' | 'dark' | 'transparent';
-    textAlign?: 'left' | 'center';
-    hasBorder?: boolean;
-}
-
-export interface CardsSection extends Section {
-    heading?: string;
-    body?: string;
-    items?: Array<Card>;
-    columns?: 'one' | 'two' | 'three';
-}
-
-export interface FeaturedProductsSection extends Section {
-    heading?: string;
-    body?: string;
-    items?: Array<ProductCardItem>;
+    items?: Array<{
+        _id?: string;
+        _key?: string;
+        name?: string;
+        cover?: CustomImage;
+        slides?: Array<{
+            _id?: string;
+            _key?: string;
+            image?: CustomImage;
+            text?: string;
+            duration?: number;
+        }>;
+    }>;
 }
 
 export interface HeroCarouselSection extends Section {
     banners?: Array<{
+        _id?: string;
+        _key?: string;
         title?: string;
         subtitle?: string;
         buttonText?: string;
@@ -60,6 +65,8 @@ export interface CategoriesSection extends Section {
     heading?: string;
     body?: string;
     items?: Array<{
+        _id?: string;
+        _key?: string;
         name?: string;
         icon?: string;
         count?: string;
@@ -73,6 +80,8 @@ export interface FlashSaleSection extends Section {
     subtitle?: string;
     endsIn?: string;
     items?: Array<{
+        _id?: string;
+        _key?: string;
         image?: CustomImage;
         name?: string;
         description?: string;
@@ -85,45 +94,9 @@ export interface FlashSaleSection extends Section {
     }>;
 }
 
-export interface StoriesSection extends Section {
-    heading?: string;
-    items?: Array<{
-        name?: string;
-        cover?: CustomImage;
-        slides?: Array<{
-            image?: CustomImage;
-            text?: string;
-            duration?: number;
-        }>;
-    }>;
-}
-
-export interface SupportSection extends Section {
-    heading?: string;
-    body?: string;
-    items?: Array<{
-        icon?: string;
-        title?: string;
-        description?: string;
-        actionText?: string;
-        actionLink?: string;
-    }>;
-}
-
-export interface Company {
-    _id: string;
-    name: string;
-    logo?: CustomImage;
-}
-
-export interface CustomImage {
-    _id?: string;
-    src: string;
-    alt?: string;
-    dimensions?: { height: number; width: number };
-}
-
 export interface ProductCardItem {
+    _id?: string;
+    _key?: string;
     image?: CustomImage;
     name: string;
     description?: string;
@@ -133,10 +106,24 @@ export interface ProductCardItem {
     url?: string;
 }
 
-export interface CtaSection extends Section {
+export interface FeaturedProductsSection extends Section {
     heading?: string;
     body?: string;
-    cta?: Array<ActionButton | ActionLink>;
+    items?: Array<ProductCardItem>;
+}
+
+export interface SupportSection extends Section {
+    heading?: string;
+    body?: string;
+    items?: Array<{
+        _id?: string;
+        _key?: string;
+        icon?: string;
+        title?: string;
+        description?: string;
+        actionText?: string;
+        actionLink?: string;
+    }>;
 }
 
 export interface Footer {
@@ -149,34 +136,16 @@ export interface Header {
     navLinks?: Array<ActionButton | ActionLink>;
 }
 
-export interface HeroSection extends Section {
-    heading?: string;
-    body?: string;
-    cta?: Array<ActionButton | ActionLink>;
-}
-
-export interface LogosSection extends Section {
-    heading?: string;
-    body?: string;
-    items?: Array<CustomImage>;
-    motion?: 'static' | 'moveToLeft' | 'moveToRight';
-}
-
 export interface Page {
     _id: string;
     slug: Slug;
     title: string;
     sections: Array<
-        | CardsSection
-        | CtaSection
-        | HeroSection
-        | LogosSection
-        | TestimonialsSection
-        | FeaturedProductsSection
+        | StoriesSection
         | HeroCarouselSection
         | CategoriesSection
         | FlashSaleSection
-        | StoriesSection
+        | FeaturedProductsSection
         | SupportSection
     >;
     metaTitle?: string;
@@ -185,43 +154,13 @@ export interface Page {
     socialImage?: CustomImage;
 }
 
-export interface Person {
-    _id: string;
-    name: string;
-    title?: string;
-    image?: CustomImage;
-    company?: Company;
-}
-
-export interface Section {
-    _type?: string;
-    theme?: 'light' | 'dark';
-    backgroundImage?: BackgroundImage;
-    width?: 'full' | 'inset';
-}
-
 export interface SiteConfig {
     _id?: string;
-    favicon?: CustomImage;
+    titleSuffix?: string;
     header?: Header;
     footer?: Footer;
-    titleSuffix?: string;
 }
 
 export interface Slug {
     current: string;
-}
-
-export interface Testimonial {
-    quote?: string;
-    author?: Person;
-    theme?: 'light' | 'dark' | 'transparent';
-    hasBorder?: boolean;
-}
-
-export interface TestimonialsSection extends Section {
-    heading?: string;
-    body?: string;
-    items?: Array<Testimonial>;
-    columns?: 'one' | 'two';
 }

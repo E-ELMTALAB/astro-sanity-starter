@@ -3,7 +3,11 @@ import { commonFields } from './sectionCommon';
 
 export const storiesSection: ModelExtension = {
     name: 'storiesSection',
-    fields: [...commonFields]
+    fields: [
+        ...commonFields,
+        { name: 'heading' },
+        { name: 'items' }
+    ]
 };
 
 

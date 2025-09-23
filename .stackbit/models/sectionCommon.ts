@@ -24,6 +24,11 @@ export const commonFields: FieldExtension[] = [
         group: 'styles'
     },
     {
+        name: 'backgroundImage',
+        controlType: 'image',
+        group: 'styles'
+    },
+    {
         name: 'width',
         controlType: 'button-group'
     }

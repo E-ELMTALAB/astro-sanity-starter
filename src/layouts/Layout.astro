@@ -21,23 +21,64 @@ try {
 } catch (e) {
     configData = {};
 }
+
 const titleSuffix = configData.titleSuffix && addTitleSuffix !== false ? configData.titleSuffix : undefined;
 const title = [Astro.props.title, titleSuffix].filter(Boolean).join(' | ');
-const resolvedImage = image?.src ? { src: new URL(image.src, Astro.site).toString() } : undefined;
-const canonicalURL = new URL(Astro.request.url, Astro.site);
+
+const site = typeof Astro.site === 'string' && Astro.site.length > 0 ? Astro.site : undefined;
+
+function toAbsoluteUrl(value?: string | null) {
+    if (!value) return undefined;
+    if (site) {
+        try {
+            return new URL(value, site).toString();
+        } catch {
+            // fall through to check for fully qualified URLs
+        }
+    }
+    return /^https?:\/\//.test(value) ? value : undefined;
+}
+
+function resolveCanonicalUrl() {
+    const requestUrl = typeof Astro.request?.url === 'string' ? Astro.request.url : undefined;
+    if (site) {
+        try {
+            return new URL(requestUrl ?? '/', site);
+        } catch {
+            try {
+                return new URL('/', site);
+            } catch {
+                return undefined;
+            }
+        }
+    }
+    if (requestUrl && /^https?:\/\//.test(requestUrl)) {
+        try {
+            return new URL(requestUrl);
+        } catch {
+            return undefined;
+        }
+    }
+    return undefined;
+}
+
+const resolvedImageSrc = toAbsoluteUrl(image?.src);
+const resolvedImage = resolvedImageSrc ? { src: resolvedImageSrc } : undefined;
+const canonicalURL = resolveCanonicalUrl();
+const canonicalHref = canonicalURL ? formatCanonicalURL(canonicalURL) : undefined;
 
 /**
  * Enforce some standard canonical URL formatting across the site.
  */
 function formatCanonicalURL(url: string | URL) {
-    const path = url.toString();
-    const hasQueryParams = path.includes('?');
+    let normalized = url.toString();
+    const hasQueryParams = normalized.includes('?');
     // If there are query params, make sure the URL has no trailing slash
     if (hasQueryParams) {
-        path.replace(/\/?$/, '');
+        normalized = normalized.replace(/\/?$/, '');
     }
     // otherwise, canonical URL always has a trailing slash
-    return path.replace(/\/?$/, hasQueryParams ? '' : '/');
+    return normalized.replace(/\/?$/, hasQueryParams ? '' : '/');
 }
 ---
 
@@ -60,20 +101,20 @@ function formatCanonicalURL(url: string | URL) {
         <link rel="sitemap" href="/sitemap-index.xml" />
 
         <!-- Page Metadata -->
-        <link rel="canonical" href={formatCanonicalURL(canonicalURL)} />
-        <meta name="description" content={description} />
+        {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+        {description && <meta name="description" content={description} />}
 
         <!-- Open Graph / Facebook -->
-        <meta property="og:url" content={formatCanonicalURL(canonicalURL)} />
+        {canonicalHref && <meta property="og:url" content={canonicalHref} />}
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
+        {description && <meta property="og:description" content={description} />}
         {resolvedImage?.src && <meta property="og:image" content={resolvedImage.src} />}
 
         <!-- X/Twitter -->
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={formatCanonicalURL(canonicalURL)} />
+        {canonicalHref && <meta property="twitter:url" content={canonicalHref} />}
         <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
+        {description && <meta property="twitter:description" content={description} />}
         {resolvedImage?.src && <meta property="twitter:image" content={resolvedImage.src} />}
     </head>
     <body class="antialiased">
