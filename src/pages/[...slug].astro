@@ -7,7 +7,11 @@ import Hero from '@components/Hero.astro';
 import Logos from '@components/Logos.astro';
 import FeaturedProducts from '@components/FeaturedProducts.astro';
 import Testimonials from '@components/Testimonials.astro';
-import TelegramShopHome from '@components/TelegramShopHome.tsx';
+import HeroCarousel from '@components/HeroCarousel.astro';
+import Categories from '@components/Categories.astro';
+import FlashSale from '@components/FlashSale.astro';
+import Stories from '@components/Stories.astro';
+import Support from '@components/Support.astro';
 import { fetchData, getPageById } from '@data/page';
 
 export async function getStaticPaths() {
@@ -27,60 +31,33 @@ const page: Page = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
 
-// Find all section types and their indices for homepage
-const findSection = (type: string) => {
-    if (!Array.isArray(sections)) return { section: null, index: -1 };
-    const index = sections.findIndex((s: any) => s?._type === type);
-    return { section: index >= 0 ? sections[index] : null, index };
-};
-
-const { section: storiesSection, index: storiesIndex } = findSection('storiesSection');
-const { section: heroCarouselSection, index: heroCarouselIndex } = findSection('heroCarouselSection');
-const { section: categoriesSection, index: categoriesIndex } = findSection('categoriesSection');
-const { section: flashSaleSection, index: flashSaleIndex } = findSection('flashSaleSection');
-const { section: featuredSection, index: featuredIndex } = findSection('featuredProductsSection');
-const { section: supportSection, index: supportIndex } = findSection('supportSection');
-
 const componentMap = {
     cardsSection: Cards,
     ctaSection: Cta,
     heroSection: Hero,
     logosSection: Logos,
     featuredProductsSection: FeaturedProducts,
-    testimonialsSection: Testimonials
+    testimonialsSection: Testimonials,
+    heroCarouselSection: HeroCarousel,
+    categoriesSection: Categories,
+    flashSaleSection: FlashSale,
+    storiesSection: Stories,
+    supportSection: Support
 };
 ---
 
 {
     page && (
         <Layout title={metaTitle ?? title} description={metaDescription} image={socialImage}>
-            {page?.slug?.current === '/' ? (
-                <div data-sb-object-id={_id}>
-                    <TelegramShopHome 
-                        client:load 
-                        stories={storiesSection}
-                        storiesFieldPath={storiesIndex >= 0 ? `sections.${storiesIndex}` : undefined}
-                        heroCarousel={heroCarouselSection}
-                        heroCarouselFieldPath={heroCarouselIndex >= 0 ? `sections.${heroCarouselIndex}` : undefined}
-                        categories={categoriesSection}
-                        categoriesFieldPath={categoriesIndex >= 0 ? `sections.${categoriesIndex}` : undefined}
-                        flashSale={flashSaleSection}
-                        flashSaleFieldPath={flashSaleIndex >= 0 ? `sections.${flashSaleIndex}` : undefined}
-                        featured={featuredSection}
-                        featuredFieldPath={featuredIndex >= 0 ? `sections.${featuredIndex}` : undefined}
-                        support={supportSection}
-                        supportFieldPath={supportIndex >= 0 ? `sections.${supportIndex}` : undefined}
-                    />
-                </div>
-            ) : (
-                <div data-sb-object-id={_id}>
-                    {sections?.length &&
-                        sections.map((section, idx) => {
-                            const Component = componentMap[section._type];
-                            return <Component {...section} data-sb-field-path={`sections.${idx}`} />;
-                        })}
-                </div>
-            )}
+            <div data-sb-object-id={_id}>
+                {sections?.length &&
+                    sections.map((section, idx) => {
+                        const Component = componentMap[section._type];
+                        return Component ? (
+                            <Component {...section} data-sb-field-path={`sections.${idx}`} />
+                        ) : null;
+                    })}
+            </div>
         </Layout>
     )
 }

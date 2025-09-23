@@ -1,0 +1,63 @@
+---
+import { marked } from 'marked';
+import Section from '@components/Section.astro';
+import type { CategoriesSection } from 'types';
+
+interface Props extends CategoriesSection {
+    'data-sb-field-path'?: string;
+}
+
+const { heading, body, items, 'data-sb-field-path': fieldPath, ...rest } = Astro.props;
+const categories = Array.isArray(items) ? items : [];
+---
+
+{(heading || body || categories.length) ? (
+    <Section {...rest} data-sb-field-path={fieldPath} class="space-y-6">
+        {heading && (
+            <div class="space-y-2 text-center md:text-left">
+                <h2 class="text-3xl font-bold" data-sb-field-path=".heading">
+                    {heading}
+                </h2>
+            </div>
+        )}
+        {body && (
+            <div class="markdown max-w-2xl text-sm opacity-80" data-sb-field-path=".body" set:html={marked.parse(body)} />
+        )}
+        {categories.length ? (
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-sb-field-path=".items">
+                {categories.map((category, idx) => (
+                    <a
+                        href={category?.url || undefined}
+                        class="group rounded-2xl border border-base-200 bg-base-100 p-6 transition hover:-translate-y-1 hover:border-primary/60 hover:shadow-lg"
+                        data-sb-field-path={`.${idx}`}
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="space-y-1">
+                                {category?.name && (
+                                    <h3 class="text-lg font-semibold" data-sb-field-path=".name">
+                                        {category.name}
+                                    </h3>
+                                )}
+                                {category?.count && (
+                                    <p class="text-sm opacity-70" data-sb-field-path=".count">
+                                        {category.count}
+                                    </p>
+                                )}
+                            </div>
+                            {category?.icon && (
+                                <span class="text-2xl" data-sb-field-path=".icon">
+                                    {category.icon}
+                                </span>
+                            )}
+                        </div>
+                        {category?.gradient && (
+                            <span class="hidden" aria-hidden="true" data-sb-field-path=".gradient">
+                                {category.gradient}
+                            </span>
+                        )}
+                    </a>
+                ))}
+            </div>
+        ) : null}
+    </Section>
+) : null}

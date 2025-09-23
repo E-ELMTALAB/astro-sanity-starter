@@ -24,6 +24,18 @@ export default defineType({
             { name: 'buttonLink', title: 'Button Link', type: 'string' },
             { name: 'badge', title: 'Badge', type: 'string' },
             { name: 'gradient', title: 'Gradient (Tailwind classes)', type: 'string' },
+            {
+              name: 'productSlug',
+              title: 'Product slug',
+              description: 'Slug passed to the Telegram shop checkout page.',
+              type: 'string',
+            },
+            {
+              name: 'variantSku',
+              title: 'Variant SKU',
+              description: 'Optional variant SKU used by the Telegram shop checkout.',
+              type: 'string',
+            },
           ],
         },
       ],

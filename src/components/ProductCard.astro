@@ -1,16 +1,32 @@
 ---
 import type { ProductCardItem } from 'types';
+import { buildCheckoutUrl } from '@utils/telegram-shop';
 
 interface Props extends ProductCardItem {
     class?: string;
     'data-sb-field-path'?: string;
 }
 
-const { image, name, description, rating, category, price, url, class: className, 'data-sb-field-path': fieldPath } = Astro.props;
+const {
+    image,
+    name,
+    description,
+    rating,
+    category,
+    price,
+    url,
+    productSlug,
+    variantSku,
+    class: className,
+    'data-sb-field-path': fieldPath
+} = Astro.props;
+
+const checkoutHref = buildCheckoutUrl(productSlug, variantSku);
+const href = checkoutHref ?? url ?? undefined;
 ---
 
 <div class:list={["group", "bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer", className]} data-sb-field-path={fieldPath}>
-    <a href={url || undefined} class="block">
+    <a href={href} class="block" data-sb-field-path={fieldPath ? '.productSlug' : undefined}>
         <div class="aspect-square bg-muted relative overflow-hidden" data-sb-field-path={fieldPath ? '.image' : undefined}>
             {image?.src ? (
                 <img src={image.src} alt={image.alt} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-sb-object-id={image._id} />
@@ -33,6 +49,9 @@ const { image, name, description, rating, category, price, url, class: className
             <div class="flex items-center justify-between">
                 {typeof price === 'number' && <span class="text-2xl font-bold text-primary" data-sb-field-path={fieldPath ? '.price' : undefined}>${price}</span>}
             </div>
+            {productSlug && <span class="hidden" aria-hidden="true" data-sb-field-path={fieldPath ? '.productSlug' : undefined}>{productSlug}</span>}
+            {variantSku && <span class="hidden" aria-hidden="true" data-sb-field-path={fieldPath ? '.variantSku' : undefined}>{variantSku}</span>}
+            {url && !checkoutHref && <span class="hidden" aria-hidden="true" data-sb-field-path={fieldPath ? '.url' : undefined}>{url}</span>}
         </div>
     </a>
 </div>

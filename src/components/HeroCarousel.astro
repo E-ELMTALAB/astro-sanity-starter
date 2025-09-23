@@ -1,0 +1,82 @@
+---
+import Section from '@components/Section.astro';
+import type { HeroCarouselSection } from 'types';
+import { buildCheckoutUrl } from '@utils/telegram-shop';
+
+interface Props extends HeroCarouselSection {
+    'data-sb-field-path'?: string;
+}
+
+const { banners, 'data-sb-field-path': fieldPath, ...rest } = Astro.props;
+const slides = Array.isArray(banners) ? banners : [];
+---
+
+{slides.length ? (
+    <Section {...rest} data-sb-field-path={fieldPath} class="space-y-6">
+        <div class="flex gap-6 overflow-x-auto pb-4 snap-x" data-sb-field-path=".banners">
+            {slides.map((banner, idx) => {
+                const checkoutHref = buildCheckoutUrl(banner?.productSlug, banner?.variantSku);
+                const href = checkoutHref ?? banner?.buttonLink ?? undefined;
+                const gradient = banner?.gradient ? `bg-gradient-to-r ${banner.gradient}` : 'bg-gradient-to-r from-primary to-primary/70';
+                return (
+                    <article
+                        class:list={[
+                            'relative min-w-[280px] snap-start rounded-3xl text-white shadow-xl overflow-hidden',
+                            'md:min-w-[360px] lg:min-w-[420px]',
+                            gradient
+                        ]}
+                        data-sb-field-path={`.${idx}`}
+                    >
+                        <div class="absolute inset-0 bg-black/20" />
+                        <div class="relative flex h-full flex-col gap-4 p-6">
+                            {banner?.badge && (
+                                <span class="badge badge-outline badge-sm" data-sb-field-path=".badge">
+                                    {banner.badge}
+                                </span>
+                            )}
+                            {banner?.title && (
+                                <h2 class="text-2xl font-bold md:text-3xl" data-sb-field-path=".title">
+                                    {banner.title}
+                                </h2>
+                            )}
+                            {banner?.subtitle && (
+                                <p class="text-base opacity-90" data-sb-field-path=".subtitle">
+                                    {banner.subtitle}
+                                </p>
+                            )}
+                            {href && (
+                                <a
+                                    href={href}
+                                    class="btn btn-primary btn-sm w-fit"
+                                    data-sb-field-path=".buttonText"
+                                >
+                                    <span>{banner?.buttonText ?? 'Go to checkout'}</span>
+                                    {banner?.productSlug && (
+                                        <span class="hidden" aria-hidden="true" data-sb-field-path=".productSlug">
+                                            {banner.productSlug}
+                                        </span>
+                                    )}
+                                    {banner?.variantSku && (
+                                        <span class="hidden" aria-hidden="true" data-sb-field-path=".variantSku">
+                                            {banner.variantSku}
+                                        </span>
+                                    )}
+                                    {banner?.buttonLink && !checkoutHref && (
+                                        <span class="hidden" aria-hidden="true" data-sb-field-path=".buttonLink">
+                                            {banner.buttonLink}
+                                        </span>
+                                    )}
+                                </a>
+                            )}
+                            {banner?.buttonLink && checkoutHref && (
+                                <span class="hidden" aria-hidden="true" data-sb-field-path=".buttonLink">
+                                    {banner.buttonLink}
+                                </span>
+                            )}
+                        </div>
+                    </article>
+                );
+            })}
+        </div>
+    </Section>
+) : null}

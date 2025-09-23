@@ -53,6 +53,8 @@ export interface HeroCarouselSection extends Section {
         buttonLink?: string;
         badge?: string;
         gradient?: string;
+        productSlug?: string;
+        variantSku?: string;
     }>;
 }
 
@@ -82,6 +84,8 @@ export interface FlashSaleSection extends Section {
         category?: string;
         rating?: number;
         url?: string;
+        productSlug?: string;
+        variantSku?: string;
     }>;
 }
 
@@ -131,6 +135,8 @@ export interface ProductCardItem {
     category?: string;
     price?: number;
     url?: string;
+    productSlug?: string;
+    variantSku?: string;
 }
 
 export interface CtaSection extends Section {
