@@ -1,3 +1,4 @@
+import React from 'react';
 import type {
     CategoriesSection,
     FeaturedProductsSection,
@@ -8,7 +9,13 @@ import type {
 } from 'types';
 import { buildCheckoutUrl } from '@telegram-shop/lib/checkout';
 
-const CHECKOUT_ORIGIN = import.meta.env.PUBLIC_TELEGRAM_CHECKOUT_ORIGIN ?? 'https://telegram-shop.vercel.app';
+const CHECKOUT_ORIGIN = (import.meta as any).env?.PUBLIC_TELEGRAM_CHECKOUT_ORIGIN ?? 'https://telegram-shop.vercel.app';
+
+// Constants for fallback arrays to avoid naming conflicts with CMS data
+const STATIC_BANNERS: any[] = [];
+const STATIC_STORIES: any[] = [];
+const STATIC_CATEGORIES: any[] = [];
+const STATIC_ITEMS: any[] = [];
 
 type FeaturedInput = { _id?: string; heading?: string; body?: string; items?: FeaturedProductsSection['items'] };
 
@@ -74,7 +81,7 @@ export default function TelegramShopHome({
                     data-sb-field-path={heroCarouselFieldPath}
                 >
                     <div className="grid gap-8 p-8 sm:p-12" data-sb-field-path=".banners">
-                        {(heroCarousel.banners ?? []).map((banner, index) => {
+                        {(heroCarousel.banners ?? STATIC_BANNERS).map((banner, index) => {
                             const href = buildCheckoutHref(banner?.buttonLink);
                             return (
                                 <article key={banner?._id || banner?._key || index} data-sb-field-path={`.${index}`}>
@@ -117,7 +124,7 @@ export default function TelegramShopHome({
                         </h2>
                     )}
                     <div className="grid gap-4 md:grid-cols-4" data-sb-field-path=".items">
-                        {(stories.items ?? []).map((story, index) => (
+                        {(stories.items ?? STATIC_STORIES).map((story, index) => (
                             <article
                                 key={story?._id || story?._key || index}
                                 className="rounded-2xl border border-base-200 bg-base-100 p-4"
@@ -148,7 +155,7 @@ export default function TelegramShopHome({
                         </p>
                     )}
                     <div className="grid gap-4 md:grid-cols-3" data-sb-field-path=".items">
-                        {(categories.items ?? []).map((category, index) => {
+                        {(categories.items ?? STATIC_CATEGORIES).map((category, index) => {
                             const href = buildCheckoutHref(category?.url);
                             return (
                                 <article
@@ -197,7 +204,7 @@ export default function TelegramShopHome({
                         )}
                     </div>
                     <div className="grid gap-4 md:grid-cols-3" data-sb-field-path=".items">
-                        {(flashSale.items ?? []).map((item, index) => {
+                        {(flashSale.items ?? STATIC_ITEMS).map((item, index) => {
                             const href = buildCheckoutHref(item?.url);
                             return (
                                 <article
@@ -259,7 +266,7 @@ export default function TelegramShopHome({
                         </p>
                     )}
                     <div className="grid gap-4 md:grid-cols-3" data-sb-field-path=".items">
-                        {(featured.items ?? []).map((item, index) => {
+                        {(featured.items ?? STATIC_ITEMS).map((item, index) => {
                             const href = buildCheckoutHref(item?.url);
                             return (
                                 <article
@@ -315,7 +322,7 @@ export default function TelegramShopHome({
                         </p>
                     )}
                     <div className="grid gap-4 md:grid-cols-2" data-sb-field-path=".items">
-                        {(support.items ?? []).map((item, index) => {
+                        {(support.items ?? STATIC_ITEMS).map((item, index) => {
                             const href = buildCheckoutHref(item?.actionLink);
                             return (
                                 <article

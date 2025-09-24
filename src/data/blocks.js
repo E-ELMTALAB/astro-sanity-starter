@@ -58,7 +58,7 @@ export const SECTIONS = `{
       _key,
       "_id": coalesce(_id, _key),
       name,
-      cover ${ENRICHED_IMAGE},
+      cover ${IMAGE},
       slides[] {
         _key,
         "_id": coalesce(_id, _key),

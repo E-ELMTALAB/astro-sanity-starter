@@ -13,7 +13,9 @@ interface Props {
 
 const { _id, src, width, height, alt, class: className, 'data-sb-field-path': fieldPath } = Astro.props;
 
-const format = src?.includes('.svg') ? 'svg' : 'webp';
+// Use placeholder as fallback if src is not provided
+const imageSrc = src || '/placeholder.svg';
+const format = imageSrc?.includes('.svg') ? 'svg' : 'webp';
 const annotations: { [key: string]: string } = {};
 if (_id) {
     annotations['data-sb-object-id'] = _id;
@@ -22,4 +24,4 @@ if (_id) {
 }
 ---
 
-<Image src={src} width={width} height={height} alt={alt || ''} format={format} class:list={className} {...annotations} />
+<Image src={imageSrc} width={width} height={height} alt={alt || ''} format={format} class:list={className} {...annotations} />

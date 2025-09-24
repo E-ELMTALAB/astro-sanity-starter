@@ -1,6 +1,6 @@
-import {defineField, defineType} from 'sanity'
-import {SquareIcon} from '@sanity/icons'
-import {SECTION_BASE_FIELDS, SECTION_BASE_GROUPS} from './sectionBase'
+import { defineField, defineType } from 'sanity'
+import { SquareIcon } from '@sanity/icons'
+import { SECTION_BASE_FIELDS, SECTION_BASE_GROUPS } from './sectionBase'
 
 export default defineType({
   name: 'flashSaleSection',
@@ -18,19 +18,7 @@ export default defineType({
       type: 'array',
       of: [
         {
-          type: 'object',
-          name: 'flashProduct',
-          fields: [
-            { name: 'image', title: 'Image', type: 'customImage' },
-            { name: 'name', title: 'Name', type: 'string' },
-            { name: 'description', title: 'Description', type: 'text' },
-            { name: 'price', title: 'Price', type: 'number' },
-            { name: 'originalPrice', title: 'Original Price', type: 'number' },
-            { name: 'discount', title: 'Discount %', type: 'number' },
-            { name: 'category', title: 'Category', type: 'string' },
-            { name: 'rating', title: 'Rating', type: 'number' },
-            { name: 'url', title: 'URL', type: 'string' },
-          ],
+          type: 'flashProduct',
         },
       ],
       group: 'content',

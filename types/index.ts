@@ -9,7 +9,7 @@ export interface ActionButton extends Action {
     theme?: 'primary' | 'secondary' | 'accent' | 'neutral';
 }
 
-export interface ActionLink extends Action {}
+export interface ActionLink extends Action { }
 
 export interface CustomImage {
     _id?: string;
@@ -136,18 +136,19 @@ export interface Header {
     navLinks?: Array<ActionButton | ActionLink>;
 }
 
+export type PageSections =
+    | StoriesSection
+    | HeroCarouselSection
+    | CategoriesSection
+    | FlashSaleSection
+    | FeaturedProductsSection
+    | SupportSection;
+
 export interface Page {
     _id: string;
     slug: Slug;
     title: string;
-    sections: Array<
-        | StoriesSection
-        | HeroCarouselSection
-        | CategoriesSection
-        | FlashSaleSection
-        | FeaturedProductsSection
-        | SupportSection
-    >;
+    sections: Array<PageSections>;
     metaTitle?: string;
     addTitleSuffix?: boolean;
     metaDescription?: string;

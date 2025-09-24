@@ -55,3 +55,21 @@ export async function checkModelFieldsCoverSchema(sectionName: string) {
         );
     }
 }
+
+export async function checkModelImportsCommonFields(sectionName: string) {
+    const modelPath = path.join(MODELS_DIR, `${sectionName}.ts`);
+    const content = await readFile(modelPath);
+
+    if (!content.includes('commonFields') && !content.includes('...commonFields')) {
+        throw new Error(`${sectionName} model does not import or use commonFields from sectionCommon.ts`);
+    }
+}
+
+export async function checkModelRegisteredInIndex(sectionName: string) {
+    const indexPath = path.join(MODELS_DIR, 'index.ts');
+    const content = await readFile(indexPath);
+
+    if (!content.includes(sectionName)) {
+        throw new Error(`${sectionName} model not registered in .stackbit/models/index.ts`);
+    }
+}

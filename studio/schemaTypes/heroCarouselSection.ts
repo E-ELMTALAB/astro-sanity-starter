@@ -1,6 +1,6 @@
-import {defineField, defineType} from 'sanity'
-import {SquareIcon} from '@sanity/icons'
-import {SECTION_BASE_FIELDS, SECTION_BASE_GROUPS} from './sectionBase'
+import { defineField, defineType } from 'sanity'
+import { SquareIcon } from '@sanity/icons'
+import { SECTION_BASE_FIELDS, SECTION_BASE_GROUPS } from './sectionBase'
 
 export default defineType({
   name: 'heroCarouselSection',
@@ -15,16 +15,7 @@ export default defineType({
       type: 'array',
       of: [
         {
-          type: 'object',
-          name: 'banner',
-          fields: [
-            { name: 'title', title: 'Title', type: 'string' },
-            { name: 'subtitle', title: 'Subtitle', type: 'string' },
-            { name: 'buttonText', title: 'Button Text', type: 'string' },
-            { name: 'buttonLink', title: 'Button Link', type: 'string' },
-            { name: 'badge', title: 'Badge', type: 'string' },
-            { name: 'gradient', title: 'Gradient (Tailwind classes)', type: 'string' },
-          ],
+          type: 'banner',
         },
       ],
       group: 'content',

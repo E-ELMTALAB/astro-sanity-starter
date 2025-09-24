@@ -1,0 +1,96 @@
+COMPLETE RULES FOR ASTRO + SANITY + STACKBIT VISUAL EDITOR INTEGRATION
+
+☐ 1. DEFINE SANITY SCHEMAS (Data Structure):
+- Create schema in studio/schemaTypes/{sectionName}.ts with camelCase field names
+- For sections: extend SECTION_BASE_FIELDS and SECTION_BASE_GROUPS from sectionBase.ts
+- Register schema in studio/schemaTypes/index.ts export array
+- Add section type to studio/schemaTypes/page.ts sections array
+- For nested objects: create separate schema files (e.g., productCard.ts)
+
+☐ 2. ADD STACKBIT MODEL EXTENSIONS (Visual Editor Controls):
+- Create .stackbit/models/{sectionName}.ts with ModelExtension
+- Import commonFields from sectionCommon.ts for consistent style controls
+- Register in .stackbit/models/index.ts allModelExtensions array
+- Model name must exactly match Sanity schema name
+
+☐ 3. EXTEND DATA FETCHING (GROQ Queries):
+- Add section projection to src/data/blocks.js SECTIONS query
+- For sections with images: include image ${IMAGE} projection
+- For nested arrays: project all required fields including images
+- Ensure _id fields are included for all objects needing annotations
+
+☐ 4. UPDATE TYPESCRIPT TYPES:
+- Add interface in types/index.ts matching schema structure exactly
+- Extend Page.sections union type to include new section type
+- Use camelCase field names matching schema
+- Include optional _id fields for objects needing data-sb-object-id
+
+☐ 5. COMPONENT ARCHITECTURE RULES:
+- React components work in Astro with @astrojs/react integration
+- Use client:load directive for interactive React components
+- Props interface must extend the section type from types/index.ts
+- Extract 'data-sb-field-path' from props and pass to section wrapper
+
+☐ 6. VISUAL EDITOR ANNOTATIONS (Critical for Editing):
+PAGE LEVEL:
+- Wrap all page content with data-sb-object-id={page._id}
+- This enables Visual Editor to identify the current page object
+
+SECTION LEVEL:
+- Each section container must have data-sb-field-path="sections.{index}"
+- Pass this from [...slug].astro as a prop to each section component
+- Section components must apply this to their root element
+
+FIELD LEVEL:
+- Every displayed field needs data-sb-field-path=".{fieldName}"
+- Field names in attributes must EXACTLY match Sanity schema field names
+- Use relative paths: .heading, .body, .items, .name, .price, etc.
+- For arrays: container gets .items, each item gets .{index}
+
+IMAGE ANNOTATIONS:
+- Images with _id: use data-sb-object-id={image._id}
+- Images without _id: use data-sb-field-path=".image"
+- Never use both on the same element
+
+☐ 7. HOMEPAGE INTEGRATION PATTERN:
+- Delete static src/pages/index.astro to let [...slug].astro handle root route
+- In [...slug].astro: detect homepage (slug === '/') and render custom component
+- Find each section type in page.sections array and pass with field paths
+- Wrap homepage content with data-sb-object-id={page._id}
+
+☐ 8. REACT COMPONENT INTEGRATION:
+- Install @astrojs/react and add to astro.config.mjs integrations
+- Import React explicitly in .tsx files to avoid UMD global errors
+- Use nullish coalescing (??) for CMS fallbacks to maintain array types
+- Rename static arrays to avoid name conflicts (e.g., STATIC_STORIES)
+- Pass section objects and field paths as props from [...slug].astro
+
+☐ 9. CONTENT REQUIREMENTS (Critical):
+- Visual Editor ONLY works with content from Sanity, not static fallbacks
+- Create page with slug "/" in Sanity Studio
+- Add all required section types to the homepage
+- Populate sections with actual content and publish
+- Empty sections or missing sections will not be editable
+
+☐ 10. DEPLOYMENT SAFETY:
+- Wrap Sanity fetches in try/catch to handle missing CMS data
+- Add onError handlers for images with fallback to placeholder.svg
+- Use conditional rendering for optional fields
+- Ensure components work without Sanity data for build reliability
+
+☐ 11. DEBUGGING VISUAL EDITOR ISSUES:
+- Check browser DevTools: look for data-sb-* attributes in HTML
+- Verify page has data-sb-object-id on wrapper element
+- Verify sections have data-sb-field-path="sections.{index}"
+- Verify fields have data-sb-field-path=".{exactFieldName}"
+- Check Network tab: ensure Sanity data is being fetched
+- Console: look for Visual Editor connection messages
+
+☐ 12. FIELD PATH HIERARCHY RULES:
+- Page wrapper: data-sb-object-id={page._id}
+- Section wrapper: data-sb-field-path="sections.{index}"
+- Section fields: data-sb-field-path=".heading" (relative to section)
+- Array containers: data-sb-field-path=".items"
+- Array items: data-sb-field-path=".{itemIndex}"
+- Item fields: data-sb-field-path=".fieldName" (relative to item)
+- Images: data-sb-object-id={image._id} OR data-sb-field-path=".image"

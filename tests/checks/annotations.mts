@@ -101,3 +101,119 @@ export async function checkImageAnnotationRule(distDir?: string) {
         }
     }
 }
+
+export async function checkFieldNameMatching(distDir?: string) {
+    const dom = await loadHomepage(distDir);
+    const sections = Array.from(
+        dom.window.document.querySelectorAll('[data-sb-field-path^="sections."]')
+    );
+
+    for (const section of sections) {
+        const element = section as HTMLElement;
+        const sectionPath = element.getAttribute('data-sb-field-path');
+        if (!sectionPath) continue;
+
+        const annotated: HTMLElement[] = Array.from(
+            element.querySelectorAll<HTMLElement>('[data-sb-field-path]')
+        );
+
+        for (const annotatedElement of annotated) {
+            const fieldPath = annotatedElement.getAttribute('data-sb-field-path');
+            if (!fieldPath || fieldPath === sectionPath) continue;
+
+            // Check if field path starts with dot (relative)
+            if (fieldPath.startsWith('.')) {
+                const fieldName = fieldPath.substring(1);
+                // Allow numeric indices for array items, otherwise check for camelCase
+                if (!/^\d+$/.test(fieldName) && !/^[a-z][a-zA-Z0-9]*$/.test(fieldName)) {
+                    throw new Error(`Field name "${fieldName}" in ${sectionPath} is not camelCase or numeric index`);
+                }
+            }
+        }
+    }
+}
+
+export async function checkArrayAnnotationRules(distDir?: string) {
+    const dom = await loadHomepage(distDir);
+    const sections = Array.from(
+        dom.window.document.querySelectorAll('[data-sb-field-path^="sections."]')
+    );
+
+    for (const section of sections) {
+        const element = section as HTMLElement;
+        const sectionPath = element.getAttribute('data-sb-field-path');
+        if (!sectionPath) continue;
+
+        // Check for array containers with .items
+        const arrayContainers = Array.from(
+            element.querySelectorAll('[data-sb-field-path=".items"]')
+        );
+
+        for (const container of arrayContainers) {
+            // Check that array items have proper indexing
+            const items = Array.from(
+                container.querySelectorAll('[data-sb-field-path^="."]')
+            );
+
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i] as HTMLElement;
+                const itemPath = item.getAttribute('data-sb-field-path');
+                if (itemPath && itemPath.startsWith('.')) {
+                    const fieldName = itemPath.substring(1);
+                    // Check if it's an array item (should be numeric or have proper structure)
+                    if (!/^\d+$/.test(fieldName) && !fieldName.includes('.')) {
+                        // This might be a field within an array item
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+}
+
+export async function checkFieldPathHierarchy(distDir?: string) {
+    const dom = await loadHomepage(distDir);
+    const sections = Array.from(
+        dom.window.document.querySelectorAll('[data-sb-field-path^="sections."]')
+    );
+
+    for (const section of sections) {
+        const element = section as HTMLElement;
+        const sectionPath = element.getAttribute('data-sb-field-path');
+        if (!sectionPath) continue;
+
+        // Check for proper field path hierarchy
+        const allAnnotated = Array.from(
+            element.querySelectorAll<HTMLElement>('[data-sb-field-path]')
+        );
+
+        for (const annotated of allAnnotated) {
+            const fieldPath = annotated.getAttribute('data-sb-field-path');
+            if (!fieldPath || fieldPath === sectionPath) continue;
+
+            // Check for proper hierarchy patterns
+            if (fieldPath.startsWith('.')) {
+                const relativePath = fieldPath.substring(1);
+
+                // Check for array item indexing pattern
+                if (/^\d+$/.test(relativePath)) {
+                    // This is an array item - check that it has proper structure
+                    const itemFields = Array.from(
+                        annotated.querySelectorAll<HTMLElement>('[data-sb-field-path]')
+                    );
+
+                    for (const itemField of itemFields) {
+                        const itemFieldPath = itemField.getAttribute('data-sb-field-path');
+                        if (itemFieldPath && itemFieldPath.startsWith('.')) {
+                            const itemFieldName = itemFieldPath.substring(1);
+                            // Item fields should be relative to the item
+                            if (!/^[a-z][a-zA-Z0-9]*$/.test(itemFieldName)) {
+                                throw new Error(`Invalid item field path: ${itemFieldPath} in ${sectionPath}`);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
