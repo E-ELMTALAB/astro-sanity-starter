@@ -21,10 +21,18 @@ const page: Page | null = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
 
+// Create a sequential index counter for sections
+let sectionCounter = 0;
+
 const findSection = (type: string) => {
     if (!Array.isArray(sections)) return { section: null, index: -1 };
-    const index = sections.findIndex((s: any) => s?._type === type);
-    return { section: index >= 0 ? sections[index] : null, index };
+    const section = sections.find((s: any) => s?._type === type);
+    if (section) {
+        const currentIndex = sectionCounter;
+        sectionCounter++;
+        return { section, index: currentIndex };
+    }
+    return { section: null, index: -1 };
 };
 
 const { section: storiesSection, index: storiesIndex } = findSection('storiesSection');
