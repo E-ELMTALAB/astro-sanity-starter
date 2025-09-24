@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "pnpm ci:astro"
+  command = "npm run ci:astro"
   publish = "dist"
 
 [dev]
