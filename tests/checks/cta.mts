@@ -3,7 +3,7 @@ import path from 'node:path';
 import { JSDOM } from 'jsdom';
 
 const ROOT = process.cwd();
-const CHECKOUT_CONFIG_PATH = path.join(ROOT, 'telegram-shop', 'lib', 'checkout-config.json');
+const CHECKOUT_CONFIG_PATH = path.join(ROOT, 'apps', 'telegram-shop', 'lib', 'checkout-config.json');
 
 async function loadCheckoutConfig() {
     const raw = await fs.readFile(CHECKOUT_CONFIG_PATH, 'utf8');
