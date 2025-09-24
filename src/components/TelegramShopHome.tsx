@@ -7,7 +7,7 @@ import type {
     StoriesSection,
     SupportSection
 } from 'types';
-import { buildCheckoutUrl } from '../../telegram-shop/lib/checkout';
+import { buildCheckoutUrl } from '../../apps/telegram-shop/lib/checkout';
 
 const CHECKOUT_ORIGIN = (import.meta as any).env?.PUBLIC_TELEGRAM_CHECKOUT_ORIGIN ?? 'https://telegram-shop.vercel.app';
 
