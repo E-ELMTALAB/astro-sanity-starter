@@ -19,6 +19,8 @@ import storiesSection from './storiesSection'
 import story from './story'
 import supportSection from './supportSection'
 
+/*stackbit model extensions*/
+
 export const schemaTypes = [
   actionButton,
   actionLink,
