@@ -1,7 +1,2 @@
-[build]
-  base = "."
-  command = "npm run ci:astro"
-  publish = "dist"
-
 [dev]
   targetPort = 3000
