@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { loadEnv } from 'vite';
 import { createClient, type ClientConfig, type SanityClient } from '@sanity/client';
 
-const { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_TOKEN, STACKBIT_PREVIEW, SANITY_PREVIEW_DRAFTS } = loadEnv(
-    process.env.NODE_ENV || '',
-    process.cwd(),
-    ''
-);
+// Load environment variables directly from process.env instead of using vite's loadEnv
+const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID;
+const SANITY_DATASET = process.env.SANITY_DATASET;
+const SANITY_TOKEN = process.env.SANITY_TOKEN;
+const STACKBIT_PREVIEW = process.env.STACKBIT_PREVIEW;
+const SANITY_PREVIEW_DRAFTS = process.env.SANITY_PREVIEW_DRAFTS;
 const isDev = import.meta.env.DEV;
 const isDeployPreview = process.env.CONTEXT === 'deploy-preview';
 const previewDrafts = STACKBIT_PREVIEW?.toLowerCase() === 'true' || SANITY_PREVIEW_DRAFTS?.toLowerCase() === 'true';
@@ -31,7 +31,7 @@ const fallbackClient = {
         throw new Error('SANITY_CLIENT_DISABLED');
     },
     listen: () => ({
-        subscribe: () => ({ unsubscribe() {} })
+        subscribe: () => ({ unsubscribe() { } })
     })
 } as unknown as SanityClient;
 
