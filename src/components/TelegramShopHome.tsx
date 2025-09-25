@@ -73,6 +73,7 @@ export default function TelegramShopHome({
     support,
     supportFieldPath
 }: TelegramShopHomeProps) {
+
     return (
         <div className="space-y-16">
             {heroCarousel && (

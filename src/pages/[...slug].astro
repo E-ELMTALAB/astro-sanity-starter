@@ -21,26 +21,22 @@ const page: Page | null = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
 
-// Create a sequential index counter for sections
-let sectionCounter = 0;
 
-const findSection = (type: string) => {
+// Find sections in the correct order to match the fallback data structure
+const findSectionByType = (type: string) => {
     if (!Array.isArray(sections)) return { section: null, index: -1 };
-    const section = sections.find((s: any) => s?._type === type);
-    if (section) {
-        const currentIndex = sectionCounter;
-        sectionCounter++;
-        return { section, index: currentIndex };
-    }
-    return { section: null, index: -1 };
+    const index = sections.findIndex((s: any) => s?._type === type);
+    return { section: index >= 0 ? sections[index] : null, index };
 };
 
-const { section: storiesSection, index: storiesIndex } = findSection('storiesSection');
-const { section: heroCarouselSection, index: heroCarouselIndex } = findSection('heroCarouselSection');
-const { section: categoriesSection, index: categoriesIndex } = findSection('categoriesSection');
-const { section: flashSaleSection, index: flashSaleIndex } = findSection('flashSaleSection');
-const { section: featuredSection, index: featuredIndex } = findSection('featuredProductsSection');
-const { section: supportSection, index: supportIndex } = findSection('supportSection');
+// Find sections in the correct order (matching fallback data structure)
+const { section: heroCarouselSection, index: heroCarouselIndex } = findSectionByType('heroCarouselSection');
+const { section: storiesSection, index: storiesIndex } = findSectionByType('storiesSection');
+const { section: categoriesSection, index: categoriesIndex } = findSectionByType('categoriesSection');
+const { section: flashSaleSection, index: flashSaleIndex } = findSectionByType('flashSaleSection');
+const { section: featuredSection, index: featuredIndex } = findSectionByType('featuredProductsSection');
+const { section: supportSection, index: supportIndex } = findSectionByType('supportSection');
+
 ---
 
 {

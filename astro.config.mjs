@@ -17,7 +17,7 @@ export default defineConfig({
     vite: {
         resolve: {
             alias: {
-                '@telegram-shop': path.join(__dirname, 'telegram-shop')
+                '@telegram-shop': path.join(__dirname, 'apps', 'telegram-shop')
             }
         },
         plugins: [tailwindcss()],
