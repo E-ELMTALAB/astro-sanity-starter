@@ -1,4 +1,4 @@
-// File: E:\website-builder\telegram-shop\app\page.tsx
+// File: E:\website-builder\main\astro-sanity-starter\apps\telegram-shop\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

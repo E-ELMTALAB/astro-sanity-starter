@@ -20,6 +20,7 @@ const pages = await getPageById(id);
 const page: Page | null = pages.length ? pages[0] : null;
 
 const { _id, title, sections, metaTitle, metaDescription, socialImage } = page || {};
+const embeddedPageJson = JSON.stringify(page ?? {}).replace(/</g, '\\u003C');
 
 
 // Find sections in the correct order to match the fallback data structure
@@ -58,6 +59,7 @@ const { section: supportSection, index: supportIndex } = findSectionByType('supp
                     support={supportSection}
                     supportFieldPath={supportIndex >= 0 ? `sections.${supportIndex}` : undefined}
                 /> 
+                <script id="__page" type="application/json" set:html={embeddedPageJson}></script>
             </div>
         </Layout>
     )

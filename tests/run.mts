@@ -137,6 +137,7 @@ async function runStackbitChecks() {
 async function runRenderChecks() {
     console.log('🎯 Running Render Tests...');
     const annotationChecks = await import('./checks/annotations.mts');
+    const resolutionChecks = await import('./checks/annotation-resolution.mts');
     const ctaChecks = await import('./checks/cta.mts');
     const distDir = process.env.DIST_DIR ? path.resolve(process.env.DIST_DIR) : undefined;
 
@@ -193,6 +194,14 @@ async function runRenderChecks() {
         console.log('  ✅ Image annotation rules valid');
     } catch (error) {
         console.log('  ❌ Image annotation rules invalid');
+        throw error;
+    }
+
+    try {
+        await resolutionChecks.checkAnnotationResolution(distDir);
+        console.log('  ✅ Annotation resolution to page JSON valid');
+    } catch (error) {
+        console.log('  ❌ Annotation resolution invalid');
         throw error;
     }
 
