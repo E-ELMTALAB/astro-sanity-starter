@@ -25,7 +25,7 @@ API_HASH = '0123456789abcdef0123456789abcdef'
 SESSION_NAME = "telethon.session"
 
 # Target user to track (username without @ or user ID)
-TARGET_USER = 7327323182
+TARGET_USER = 181830189
 
 # Chat ID where logs will be saved (can be your Saved Messages or any chat ID)
 LOG_CHAT_ID = -4832264586
