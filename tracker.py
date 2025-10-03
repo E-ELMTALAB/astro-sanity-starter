@@ -25,7 +25,7 @@ API_HASH = '0123456789abcdef0123456789abcdef'
 SESSION_NAME = "telethon.session"
 
 # Target user to track (username without @ or user ID)
-TARGET_USER = 181830189
+TARGET_USER = 7327323182
 
 # Chat ID where logs will be saved (can be your Saved Messages or any chat ID)
 LOG_CHAT_ID = -4832264586
@@ -435,18 +435,13 @@ class TelegramTracker:
 
 async def main():
     """Main entry point"""
-    # Validate configuration
-    if not API_ID or not API_HASH:
-        print("✗ Error: API_ID and API_HASH must be set in .env file")
-        print("  Get them from https://my.telegram.org")
-        return
-    
+    # Validate only essential configuration
     if not TARGET_USER:
-        print("✗ Error: TARGET_USER must be set in .env file")
+        print("✗ Error: TARGET_USER must be set")
         return
     
     if not LOG_CHAT_ID:
-        print("✗ Error: LOG_CHAT_ID must be set in .env file")
+        print("✗ Error: LOG_CHAT_ID must be set")
         return
     
     tracker = TelegramTracker()
